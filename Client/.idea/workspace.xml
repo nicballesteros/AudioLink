@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Connection.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Manager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Message.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/Manager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Server.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1ZmR0LxKFQRXGs3yftL45x0sbHY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Client" />
+      <module name="Client" />
+      <option name="PROGRAM_PARAMETERS" value="localhost 8080" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Client" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="" />
+      <created>1585442058177</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585442058177</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588577324279">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588577324279" />
+    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1588606527387">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1588606527387" />
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1585445985013">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1585445985013" />
+    <state width="881" height="280" key="GridCell.Tab.0.bottom" timestamp="1588613398891">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
+    <state width="881" height="280" key="GridCell.Tab.0.center" timestamp="1588613398891">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
+    <state width="881" height="280" key="GridCell.Tab.0.left" timestamp="1588613398891">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
+    <state width="881" height="280" key="GridCell.Tab.0.right" timestamp="1588613398891">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
+    <state width="881" height="344" key="GridCell.Tab.1.bottom" timestamp="1585466807790">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="344" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807790" />
+    <state width="881" height="344" key="GridCell.Tab.1.center" timestamp="1585466807789">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="344" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
+    <state width="881" height="344" key="GridCell.Tab.1.left" timestamp="1585466807789">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="344" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
+    <state width="881" height="344" key="GridCell.Tab.1.right" timestamp="1585466807789">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="881" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
+    <state x="302" y="154" width="1372" height="796" key="new project wizard" timestamp="1585445743242">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="302" y="154" width="1372" height="796" key="new project wizard/67.27.1853.1053@67.27.1853.1053" timestamp="1585445743242" />
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1585507064767">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1585507064767" />
+  </component>
+</project>
