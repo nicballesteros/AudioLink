@@ -22,6 +22,8 @@ public class Server {
     private Clip clip;
     private Manager manager;
 
+    private Request currentRequest;
+
     private int clientNumber; //stores the amount of users logged on
 
     /** All keys for the threads to enter synchronized blocks */
@@ -29,6 +31,7 @@ public class Server {
     private static final Object connectionKey = new Object();
     private static final Object clientNumberKey = new Object();
     private static final Object requestKey = new Object();
+    private static final Object readyKey = new Object();
 
     private Thread managerThread;
 
@@ -176,9 +179,11 @@ public class Server {
     private class Connection implements Runnable {
         private User thisUser;
 
+        private boolean ready;
         private boolean online;
 
         private boolean broadcasting; //if false
+        private boolean listening;
         //private Connection listeningFrom;
 
 //        private CircularArray queue;
@@ -191,6 +196,10 @@ public class Server {
         public Connection(Socket client) {
             this.client = client;
             online = true;
+            ready = false;
+
+            broadcasting = false;
+            listening = false;
         }
 
         @Override
@@ -231,6 +240,94 @@ public class Server {
                     else if (request.getType() == 7) {
                         this.sendAllRequests();
                     }
+                    else if (request.getType() == 8) {
+                        //accept a request
+
+                        Request audioRequest = (Request) request.getData();
+
+                        synchronized (onCallKey) {
+                            onCall = true;
+//                            boolean copyOnCall = new Boolean(onCall);
+                        }
+
+                        synchronized (currentRequestKey) {
+                            currentRequest = new Request(audioRequest);
+                        }
+
+                        if(audioRequest.getType() == 3) {
+                            listening = true;
+                            broadcasting = true;
+                        } else if(audioRequest.getType() == 1 && audioRequest.getSender().equals(thisUser)) {
+                            broadcasting = true;
+                        } else {
+                            listening = true;
+                        }
+
+                        if(audioRequest.getRecipient().equals(thisUser)) {
+                            synchronized (connectionKey) {
+                                for(int i = 0; i < connections.size(); i++) {
+                                    if(connections.getUser(i).equals(audioRequest.getSender())) {
+                                        if(connections.getConnection(i).getCurrentRequest().equals(audioRequest)) {
+                                            if(connections.getConnection(i).getOnCall()) {
+                                                //all good
+                                                transferData();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            synchronized (connectionKey) {
+                                for(int i = 0; i < connections.size(); i++) {
+                                    if(connections.getUser(i).equals(audioRequest.getRecipient())) {
+                                        if(connections.getConnection(i).getCurrentRequest().equals(audioRequest)) {
+                                            if(connections.getConnection(i).getOnCall()) {
+                                                //all good
+                                                transferData();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+//                        synchronized (requestKey) {
+//                            for(Request r : requests) {
+//                                if(r.equals(audioRequest)) {
+//                                    //check to see if accepted
+//                                    currentRequest = r;
+//                                    if(r.isAccepted()) {
+//                                        //send back a "hey ready to join call"
+//                                        otherReady = true;
+//                                        objectOutputStream.writeObject(new Message(9));
+//                                    } else {
+//                                        //send back a waiting on other dood
+//                                        r.accept();
+//                                        objectOutputStream.writeObject(new Message(8));
+//                                    }
+//                                }
+//                            }
+//                        }
+
+                        //we need to tell other client that the call is prepared
+
+                        //int broadOrList = (Integer) request.getData(); //1 for broad, 2 for list, 3 for both
+
+
+//                        this.ready = true;
+//
+//                        if(otherReady && ready) {
+//                            //join call
+//                            //go to other method that deals with the circular array
+//                            //in manager
+//                        }
+                        //TODO have a way to delete and deny requests
+
+                        //wait till other user is ready to send back the ok signal
+                    }
+//                    else if (request.getType() == 9) {
+//                        //user is waiting for the other user to connect
+//                    }
                     else if (request.getType() == -1) {
                         //quit message
                         break;
@@ -239,7 +336,6 @@ public class Server {
                 }
 
                 //TODO show to console that this user has logged off in a better way than just catching an exception
-                //TODO join threads when done with them
             } catch (EOFException eofException) {
                 synchronized (outputKey) {
                     System.out.println(thisUser.getUsername() + " has logged off");
@@ -251,6 +347,10 @@ public class Server {
                 classNotFoundException.printStackTrace();
             }
         }
+
+        private boolean otherReady = false;
+
+        private Request currentRequest;
 
         private void updateUser(Message request) throws IOException {
             User user = (User) request.getData();
@@ -299,14 +399,99 @@ public class Server {
             objectOutputStream.writeObject(new Message(5, users));
         }
 
+        private boolean onCall;
+
+        public final Object onCallKey = new Object();
+
         private void addRequest(Message message) throws IOException {
             Request request = (Request) message.getData();
 
+            synchronized (currentRequestKey) {
+                this.currentRequest = new Request(request);
+            }
+
+            synchronized (onCallKey) {
+                this.onCall = true;
+            }
+
             synchronized (requestKey) {
+                for(Request r : requests) {
+                    if(request.equals(r)) {
+                        //send this user to call as recipient
+                        objectOutputStream.writeObject(new Message(6, request));
+                        return;
+                    }
+                }
+
                 requests.add(request);
             }
 
-            objectOutputStream.writeObject(new Message(6, request));
+            //right here we are waiting for the other user to connect.
+
+            while(true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
+
+                boolean breakOutOfWhile = false;
+
+                synchronized (connectionKey) {
+                    for(int i = 0; i < connections.size(); i++) {
+                        if(connections.getUser(i).equals(request.getRecipient())) {
+                            if(connections.getConnection(i).getCurrentRequest().equals(request) && connections.getConnection(i).getOnCall()) {
+                                breakOutOfWhile = true;
+                            }
+                        }
+                    }
+                }
+
+                if (breakOutOfWhile) {
+                    break;
+                }
+            }
+            objectOutputStream.writeObject(new Message(6, request)); //unblocks current user
+
+            //send to other method
+            transferData();
+        }
+
+        public void writeMode() {
+            while(true) {
+
+            }
+        }
+
+        public void readMode() {
+            
+        }
+
+        public void transferData() {
+            if(listening && broadcasting) {
+                //read mode
+                //uh oh mode
+            } else if (broadcasting) {
+                //write mode
+                writeMode();
+            } else {
+                //read mode
+                readMode();
+            }
+        }
+
+        public boolean getOnCall() {
+            synchronized (onCallKey) {
+                return onCall;
+            }
+        }
+
+        public final Object currentRequestKey = new Object();
+
+        public Request getCurrentRequest() {
+            synchronized (currentRequestKey) {
+                return currentRequest;
+            }
         }
 
         private void sendAllRequests() throws IOException {
@@ -335,6 +520,10 @@ public class Server {
             } catch (IOException ioException) {
 
             }
+        }
+
+        public boolean isReady() {
+            return ready;
         }
     }
 
@@ -367,15 +556,15 @@ public class Server {
 
                     /* check for connections that want to talk to each other */
 
-//                    synchronized (connectionKey) {
-//                        if(connections.size() != 0) {
-//                            for(int i = 0; i < connections.size(); i++) {
-//                                if(connections.getConnection(i).isReady()) {
-//
-//                                }
-//                            }
-//                        }
-//                    }
+                    synchronized (connectionKey) {
+                        if(connections.size() != 0) {
+                            for(int i = 0; i < connections.size(); i++) {
+                                if(connections.getConnection(i).isReady()) {
+
+                                }
+                            }
+                        }
+                    }
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }

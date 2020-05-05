@@ -22,9 +22,6 @@ public class Client {
     private Socket socket;
     private String host;
     private int port;
-    private BufferedReader bufferedReader;
-    private BufferedOutputStream writer;
-    private BufferedInputStream reader;
 
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
@@ -33,7 +30,14 @@ public class Client {
 
     private ArrayList<User> users;
 
-    //private String username;
+    private Thread broadcastThread;
+    private Thread listenThread;
+
+    public static final Object broadcastBooleanKey = new Object();
+    public static final Object listenBooleanKey = new Object();
+
+    private boolean broadcast;
+    private boolean listen;
 
     private User me;
 
@@ -261,7 +265,81 @@ public class Client {
                                     String acceptOrDeny = scanner.nextLine();
 
                                     if(acceptOrDeny.equals("a")) {
-                                        System.out.println("Entering " + requests.get(requestNumber - 1).getType() + " mode");
+
+                                        objectOutputStream.writeObject(new Message(8, requests.get(requestNumber - 1).getType()));
+                                        System.out.println("Waiting on other user");
+                                        Message message1 = (Message) objectInputStream.readObject(); //other user connected signal
+
+                                        if(message1.getType() != 8) {
+                                            //there is an error, throw exception
+                                        }
+
+                                        System.out.println("Other user has joined call");
+
+                                        String text = "";
+                                        if(requests.get(requestNumber - 1).getType() == 1) {
+                                            text = "broadcasting";
+                                            broadcast = true;
+                                            broadcastThread = new Thread(new AudioRecorder(objectOutputStream));
+                                            broadcastThread.start();
+                                            System.out.println("Audio is being recorded");
+                                        } else if (requests.get(requestNumber - 1).getType() == 2) {
+                                            text = "listening";
+                                            listen = true;
+                                            listenThread = new Thread(new AudioPlayer(objectInputStream));
+                                            listenThread.start();
+                                        } else if (requests.get(requestNumber - 1).getType() == 3) {
+                                            text = "dual";
+                                            broadcast = true;
+                                            listen = true;
+                                            broadcastThread = new Thread(new AudioRecorder(objectOutputStream));
+                                            listenThread = new Thread(new AudioPlayer(objectInputStream));
+
+                                            broadcastThread.start();
+                                            listenThread.start();
+
+                                            System.out.println("Audio is being recorded");
+
+                                        }
+                                        System.out.println("Entering " + text + " mode");
+
+                                        String userInput = "";
+
+                                        System.out.println("To stop this connection, type \"exit\"");
+
+                                        while(!userInput.equalsIgnoreCase("exit")){
+                                            userInput = scanner.nextLine();
+                                        }
+
+                                        synchronized (listenBooleanKey) {
+                                            if(listen) {
+                                                try {
+                                                    listen = false;
+                                                    listenThread.join();
+                                                } catch (InterruptedException interruptedException) {
+                                                    interruptedException.printStackTrace();
+                                                }
+                                            }
+                                        }
+
+                                        synchronized (broadcastBooleanKey) {
+                                            if(broadcast) {
+                                                try {
+                                                    broadcast = false;
+                                                    broadcastThread.join();
+                                                } catch (InterruptedException interruptedException) {
+                                                    interruptedException.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                        //join the threads
+                                        //set bools to false
+
+                                        objectOutputStream.writeObject(new Message(9));
+
+                                        //send a quit message to server
+                                        //return to main menu
+
                                         break;
                                     } else if (acceptOrDeny.equals("d")){
                                         System.out.println("Deleting Request");
@@ -345,6 +423,7 @@ public class Client {
                 try {
                     if (((Message) objectInputStream.readObject()).getType() == 6) {
                         System.out.println("Request added! Returning to Main Menu\n");
+                        //TODO block here until call starts
                     }
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
@@ -358,6 +437,9 @@ public class Client {
     }
 
     public void mainMenu() {
+        listen = false;
+        broadcast = false;
+
         while(true) {
             System.out.println("Main Menu: ");
             System.out.println("1: Edit your profile (username)");
@@ -396,6 +478,60 @@ public class Client {
             //TODO make sure that if the value inputted is not an int, show main menu again.
 
 
+        }
+    }
+
+    private class AudioRecorder implements Runnable {
+        private ObjectOutputStream objectOutputStream;
+
+        public AudioRecorder(ObjectOutputStream objectOutputStream) {
+            //The constructor that runs if the client is BOTH broadcasting and listening
+            this.objectOutputStream = objectOutputStream;
+        }
+
+        public AudioRecorder(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream){
+            //The constructor that runs if the client is ONLY broadcasting
+            //This new thread checks for the quit signal from the server. If the other user stops listening this thread will tell the user that something has happened.
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Message message = (Message)objectInputStream.readObject();
+                        if(message.getType() == 9) {
+                            //quit signal
+                            //set ready to false
+                            synchronized (broadcastBooleanKey) {
+
+                            }
+                        }
+                    } catch (IOException ioexception) {
+                        ioexception.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void run() {
+            //get data from mic
+            //send it buffered thru output stream.
+        }
+    }
+
+    private class AudioPlayer implements Runnable {
+        private ObjectInputStream objectInputStream;
+
+        public AudioPlayer(ObjectInputStream objectInputStream) {
+            this.objectInputStream = objectInputStream;
+        }
+
+
+        @Override
+        public void run() {
+            //get data from server
+            //play it on speaker
         }
     }
 

@@ -11,7 +11,17 @@ public class Message implements Serializable {
 
     /**
      *
-     * @param type is -1 if it is a quit message, 1 if it is a text, 2 if it is encoding data, 3 if it audio data, 4 if it is a user, 5 if it is a user list, 6 if it is a request, 7 if the user wants to retieve all reqests, -2 if there is an username error,
+     * @param type is -1 if it is a quit message,
+     *             1 if it is a text,
+     *             2 if it is encoding data,
+     *             3 if it audio data,
+     *             4 if it is a user,
+     *             5 if it is a user list,
+     *             6 if it is a request,
+     *             7 if the user wants to retieve all reqests,
+     *             8 if it is a ready to broadcast signal.
+     *             9 if it is a join call signal
+     *             -2 if there is an username error,
      * @param data the actual data in a byte[]
      */
 
