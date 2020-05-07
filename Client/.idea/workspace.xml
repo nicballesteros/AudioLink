@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Connection.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Manager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_4_20__8_03_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/.idea/uiDesigner.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Message.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" afterDir="false" />
@@ -16,13 +12,11 @@
       <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/Manager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/CircularArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Call.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Call.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,30 +91,34 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588577324279" />
-    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1588606527387">
+    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1588637878317">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1588606527387" />
+    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1588637878317" />
+    <state x="67" y="27" width="1843" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588637337536">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="67" y="27" width="1843" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588637337536" />
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1585445985013">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1585445985013" />
-    <state width="881" height="280" key="GridCell.Tab.0.bottom" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.bottom" timestamp="1588643212689">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
-    <state width="881" height="280" key="GridCell.Tab.0.center" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
+    <state width="920" height="280" key="GridCell.Tab.0.center" timestamp="1588643212688">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
-    <state width="881" height="280" key="GridCell.Tab.0.left" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
+    <state width="920" height="280" key="GridCell.Tab.0.left" timestamp="1588643212688">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
-    <state width="881" height="280" key="GridCell.Tab.0.right" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
+    <state width="920" height="280" key="GridCell.Tab.0.right" timestamp="1588643212689">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
+    <state width="920" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
     <state width="881" height="344" key="GridCell.Tab.1.bottom" timestamp="1585466807790">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -137,13 +135,21 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="881" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
+    <state x="409" y="467" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588638267197">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="409" y="467" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1853.1053@67.27.1853.1053" timestamp="1588638267197" />
     <state x="302" y="154" width="1372" height="796" key="new project wizard" timestamp="1585445743242">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="302" y="154" width="1372" height="796" key="new project wizard/67.27.1853.1053@67.27.1853.1053" timestamp="1585445743242" />
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1585507064767">
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1588646269191">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1585507064767" />
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1588646269191" />
+    <state x="275" y="466" width="540" height="172" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1588645817948">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="275" y="466" width="540" height="172" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588645817948" />
   </component>
 </project>
