@@ -1,10 +1,7 @@
 import javax.sound.sampled.*;
-import javax.xml.crypto.Data;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 /**
@@ -22,27 +19,24 @@ public class Server {
     private Clip clip;
     private Manager manager;
 
-    private Request currentRequest;
-
     private int clientNumber; //stores the amount of users logged on
 
     /** All keys for the threads to enter synchronized blocks */
     private static final Object outputKey = new Object();
     private static final Object connectionKey = new Object();
     private static final Object clientNumberKey = new Object();
-    private static final Object requestKey = new Object();
-    private static final Object readyKey = new Object();
+    private static final Object callKey = new Object();
 
     private Thread managerThread;
 
     private UserList connections;
 
-    private ArrayList<Request> requests;
+    private ArrayList<Call> calls;
 
     public Server(int port) {
         this.port = port;
         clientNumber = 0;
-        requests = new ArrayList<Request>();
+        calls = new ArrayList<Call>();
     }
 
     public void runServer() {
@@ -176,356 +170,291 @@ public class Server {
 
     }
 
-    private class Connection implements Runnable {
-        private User thisUser;
+        private class Connection implements Runnable {
+            private User thisUser;
 
-        private boolean ready;
-        private boolean online;
+            private boolean online;
 
-        private boolean broadcasting; //if false
-        private boolean listening;
-        //private Connection listeningFrom;
+            private boolean broadcasting; //if false
+            //private Connection listeningFrom;
 
-//        private CircularArray queue;
+    //        private CircularArray queue;
 
-        private ObjectOutputStream objectOutputStream;
-        private ObjectInputStream objectInputStream;
+            private ObjectOutputStream objectOutputStream;
+            private ObjectInputStream objectInputStream;
 
-        private Socket client;
+            private Socket client;
 
-        public Connection(Socket client) {
-            this.client = client;
-            online = true;
-            ready = false;
+            private Call currentCall;
 
-            broadcasting = false;
-            listening = false;
-        }
-
-        @Override
-        public void run() {
-            //set up the streams
-            try {
-                this.objectInputStream = new ObjectInputStream(client.getInputStream());
-                this.objectOutputStream = new ObjectOutputStream(client.getOutputStream());
-            } catch(IOException io) {
-                io.printStackTrace();
+            public Connection(Socket client) {
+                this.client = client;
+                online = true;
             }
 
-            try {
-                while (true) {
-                    Message request = (Message) objectInputStream.readObject();
-
-                    if(request.getType() == 1) {
-                        //its text
-                    }
-                    else if (request.getType() == 2) {
-                        //encoding data
-                    }
-                    else if (request.getType() == 3) {
-                        //audio data
-                    }
-                    else if (request.getType() == 4) {
-                        //user
-                        this.updateUser(request);
-                    }
-                    else if (request.getType() == 5) {
-                        //user list
-                        this.sendUserList();
-                    }
-                    else if (request.getType() == 6) {
-                        //a listen request
-                        this.addRequest(request);
-                    }
-                    else if (request.getType() == 7) {
-                        this.sendAllRequests();
-                    }
-                    else if (request.getType() == 8) {
-                        //accept a request
-
-                        Request audioRequest = (Request) request.getData();
-
-                        synchronized (onCallKey) {
-                            onCall = true;
-//                            boolean copyOnCall = new Boolean(onCall);
-                        }
-
-                        synchronized (currentRequestKey) {
-                            currentRequest = new Request(audioRequest);
-                        }
-
-                        if(audioRequest.getType() == 3) {
-                            listening = true;
-                            broadcasting = true;
-                        } else if(audioRequest.getType() == 1 && audioRequest.getSender().equals(thisUser)) {
-                            broadcasting = true;
-                        } else {
-                            listening = true;
-                        }
-
-                        if(audioRequest.getRecipient().equals(thisUser)) {
-                            synchronized (connectionKey) {
-                                for(int i = 0; i < connections.size(); i++) {
-                                    if(connections.getUser(i).equals(audioRequest.getSender())) {
-                                        if(connections.getConnection(i).getCurrentRequest().equals(audioRequest)) {
-                                            if(connections.getConnection(i).getOnCall()) {
-                                                //all good
-                                                transferData();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            synchronized (connectionKey) {
-                                for(int i = 0; i < connections.size(); i++) {
-                                    if(connections.getUser(i).equals(audioRequest.getRecipient())) {
-                                        if(connections.getConnection(i).getCurrentRequest().equals(audioRequest)) {
-                                            if(connections.getConnection(i).getOnCall()) {
-                                                //all good
-                                                transferData();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-//                        synchronized (requestKey) {
-//                            for(Request r : requests) {
-//                                if(r.equals(audioRequest)) {
-//                                    //check to see if accepted
-//                                    currentRequest = r;
-//                                    if(r.isAccepted()) {
-//                                        //send back a "hey ready to join call"
-//                                        otherReady = true;
-//                                        objectOutputStream.writeObject(new Message(9));
-//                                    } else {
-//                                        //send back a waiting on other dood
-//                                        r.accept();
-//                                        objectOutputStream.writeObject(new Message(8));
-//                                    }
-//                                }
-//                            }
-//                        }
-
-                        //we need to tell other client that the call is prepared
-
-                        //int broadOrList = (Integer) request.getData(); //1 for broad, 2 for list, 3 for both
-
-
-//                        this.ready = true;
-//
-//                        if(otherReady && ready) {
-//                            //join call
-//                            //go to other method that deals with the circular array
-//                            //in manager
-//                        }
-                        //TODO have a way to delete and deny requests
-
-                        //wait till other user is ready to send back the ok signal
-                    }
-//                    else if (request.getType() == 9) {
-//                        //user is waiting for the other user to connect
-//                    }
-                    else if (request.getType() == -1) {
-                        //quit message
-                        break;
-                    }
-
-                }
-
-                //TODO show to console that this user has logged off in a better way than just catching an exception
-            } catch (EOFException eofException) {
-                synchronized (outputKey) {
-                    System.out.println(thisUser.getUsername() + " has logged off");
-                    this.online = false;
-                }
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
-            }
-        }
-
-        private boolean otherReady = false;
-
-        private Request currentRequest;
-
-        private void updateUser(Message request) throws IOException {
-            User user = (User) request.getData();
-
-            synchronized (connectionKey) {
-                //System.out.println(connections.size);
-                for(int i = 0; i < connections.size(); i++) {
-                    if(connections.getUser(i).getUsername() == null) {
-                        continue;
-                    }
-                    //System.out.println(connections.getUser(i).getUsername());
-                    if(connections.getUser(i).getUsername().equals(user.getUsername())) {
-                        objectOutputStream.writeObject(new Message(-2));
-                        return;
-                    }
-                }
-            }
-
-            if(user.getId() == 0) {
-                //init
-                synchronized (clientNumberKey) {
-                    thisUser = new User(clientNumber, user.getUsername());
-                }
-            } else {
-                thisUser.setUsername(user.getUsername());
-            }
-            this.thisUser.setOnline(true);
-
-            //update username
-            //thisUser.setUsername(user.getUsername());
-
-            synchronized (connectionKey) {
-                connections.update(this, thisUser);
-            }
-
-            objectOutputStream.writeObject(new Message(4, thisUser));
-        }
-
-        private void sendUserList() throws IOException {
-            ArrayList<User> users;
-
-            synchronized (connectionKey) {
-                users = connections.toArrayList();
-            }
-
-            objectOutputStream.writeObject(new Message(5, users));
-        }
-
-        private boolean onCall;
-
-        public final Object onCallKey = new Object();
-
-        private void addRequest(Message message) throws IOException {
-            Request request = (Request) message.getData();
-
-            synchronized (currentRequestKey) {
-                this.currentRequest = new Request(request);
-            }
-
-            synchronized (onCallKey) {
-                this.onCall = true;
-            }
-
-            synchronized (requestKey) {
-                for(Request r : requests) {
-                    if(request.equals(r)) {
-                        //send this user to call as recipient
-                        objectOutputStream.writeObject(new Message(6, request));
-                        return;
-                    }
-                }
-
-                requests.add(request);
-            }
-
-            //right here we are waiting for the other user to connect.
-
-            while(true) {
+            @Override
+            public void run() {
+                //set up the streams
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
+                    this.objectInputStream = new ObjectInputStream(client.getInputStream());
+                    this.objectOutputStream = new ObjectOutputStream(client.getOutputStream());
+                } catch(IOException io) {
+                    io.printStackTrace();
                 }
 
-                boolean breakOutOfWhile = false;
+                try {
+                    while (true) {
+                        Message request = (Message) objectInputStream.readObject();
+
+                        if(request.getType() == 1) {
+                            //its text
+                        }
+                        else if (request.getType() == 2) {
+                            //encoding data
+                        }
+                        else if (request.getType() == 3) {
+                            //audio data
+                        }
+                        else if (request.getType() == 4) {
+                            //user
+                            this.updateUser(request);
+                        }
+                        else if (request.getType() == 5) {
+                            //user list
+                            this.sendUserList();
+                        }
+                        else if (request.getType() == 6) {
+                            //a call request
+                            this.addRequest(request);
+                        }
+                        else if (request.getType() == 7) {
+                            this.sendAllRequests();
+                        }
+                        else if (request.getType() == 8) {
+                            //user accepted request
+                            this.acceptRequest((Call)request.getData());
+                        }
+                        //else if (request.getType() == )
+                        else if (request.getType() == -1) {
+                            //quit message
+                            break;
+                        }
+
+                    }
+
+                    //TODO show to console that this user has logged off in a better way than just catching an exception
+                    //TODO join threads when done with them
+                } catch (EOFException eofException) {
+                    synchronized (outputKey) {
+                        System.out.println(thisUser.getUsername() + " has logged off");
+                        this.online = false;
+                    }
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+            }
+
+            private void acceptRequest(Call request) throws IOException {
+                Call callWeNeed = new Call(thisUser, thisUser, 1); //dummy call
+                boolean found = false;
+
+                synchronized (callKey) {
+                    for(Call call : calls) {
+                        if(request.equalsExact(call)) {
+                            callWeNeed = call;
+                            calls.remove(call);
+                            found = true;
+                        }
+                    }
+                }
+
+                if(found) {
+                    callWeNeed.accept();
+                    objectOutputStream.writeObject(new Message(8));
+                    this.currentCall = callWeNeed;
+                } else {
+                    //TODO send error
+                }
+            }
+
+            private void updateUser(Message request) throws IOException {
+                User user = (User) request.getData();
 
                 synchronized (connectionKey) {
+                    //System.out.println(connections.size);
                     for(int i = 0; i < connections.size(); i++) {
-                        if(connections.getUser(i).equals(request.getRecipient())) {
-                            if(connections.getConnection(i).getCurrentRequest().equals(request) && connections.getConnection(i).getOnCall()) {
-                                breakOutOfWhile = true;
-                            }
+                        if(connections.getUser(i).getUsername() == null) {
+                            continue;
+                        }
+                        //System.out.println(connections.getUser(i).getUsername());
+                        if(connections.getUser(i).getUsername().equals(user.getUsername())) {
+                            objectOutputStream.writeObject(new Message(-2));
+                            return;
                         }
                     }
                 }
 
-                if (breakOutOfWhile) {
-                    break;
+                if(user.getId() == 0) {
+                    //init
+                    synchronized (clientNumberKey) {
+                        thisUser = new User(clientNumber, user.getUsername());
+                    }
+                } else {
+                    thisUser.setUsername(user.getUsername());
                 }
+                this.thisUser.setOnline(true);
+
+                //update username
+                //thisUser.setUsername(user.getUsername());
+
+                synchronized (connectionKey) {
+                    connections.update(this, thisUser);
+                }
+
+                objectOutputStream.writeObject(new Message(4, thisUser));
             }
-            objectOutputStream.writeObject(new Message(6, request)); //unblocks current user
 
-            //send to other method
-            transferData();
-        }
+            private void sendUserList() throws IOException {
+                ArrayList<User> users;
 
-        public void writeMode() {
-            while(true) {
+                synchronized (connectionKey) {
+                    users = connections.toArrayList();
+                }
 
+                objectOutputStream.writeObject(new Message(5, users));
             }
-        }
 
-        public void readMode() {
-            
-        }
+            private void addRequest(Message message) throws IOException {
+                Call call = (Call) message.getData();
 
-        public void transferData() {
-            if(listening && broadcasting) {
-                //read mode
-                //uh oh mode
-            } else if (broadcasting) {
-                //write mode
-                writeMode();
-            } else {
-                //read mode
-                readMode();
-            }
-        }
+                synchronized (callKey) { //check to see if a call request for this has already been made.
+                    for(int i = 0; i < calls.size(); i++) {
 
-        public boolean getOnCall() {
-            synchronized (onCallKey) {
-                return onCall;
-            }
-        }
+                        if(calls.get(i).equals(call)) {
+                            //connect to the call
+                            this.currentCall = calls.get(i);
+                            calls.remove(this.currentCall);
+                            currentCall.accept();
 
-        public final Object currentRequestKey = new Object();
+                            return;
+                        }
+                    }
 
-        public Request getCurrentRequest() {
-            synchronized (currentRequestKey) {
-                return currentRequest;
-            }
-        }
+                    calls.add(call);
+                }
 
-        private void sendAllRequests() throws IOException {
-            ArrayList<Request> listToSend = new ArrayList<>();
 
-            synchronized (requestKey) {
-                for (Request request : requests) {
-                    if (request.getSender().equals(thisUser) || request.getRecipient().equals(thisUser)) {
-                        listToSend.add(request);
+                //wait for other user to accept call request
+
+                while(true) {
+                    try {
+                        Thread.sleep(1000);
+
+                        if(this.currentCall.isAccepted()) {
+                            //the client will hang until this is called
+                            objectOutputStream.writeObject(new Message(6, call));
+                        }
+
+    //                    this.currentCall.getRecipient();
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
                     }
                 }
             }
 
-            objectOutputStream.writeObject(new Message(7, listToSend));
-        }
+            private void sendAllRequests() throws IOException {
+                ArrayList<Call> listToSend = new ArrayList<>();
 
-        public boolean isOnline() {
-            return online;
-        }
+                synchronized (callKey) {
+                    for (Call call : calls) {
+                        if (call.getSender().equals(thisUser) || call.getRecipient().equals(thisUser)) {
+                            listToSend.add(call);
+                        }
+                    }
+                }
 
-        public void close() {
-            try {
-                objectOutputStream.close();
-                objectInputStream.close();
-                client.close();
-            } catch (IOException ioException) {
+                objectOutputStream.writeObject(new Message(7, listToSend));
+            }
 
+            public boolean isOnline() {
+                return online;
+            }
+
+            public void close() {
+                try {
+                    objectOutputStream.close();
+                    objectInputStream.close();
+                    client.close();
+                } catch (IOException ioException) {
+
+                }
+            }
+
+            private void enterCall() {
+                boolean sending = false;
+                boolean receiving = false;
+                boolean sender = false;
+                boolean receiver = false;
+
+                if(currentCall.getSender().equals(thisUser)) {
+                    sender = true;
+                } else {
+                    receiver = true;
+                }
+
+                if(sender && currentCall.getType() == 1) {
+                    sending = true;
+                } else if (receiver && currentCall.getType() == 1) {
+                    receiving = true;
+                } else if (sender && currentCall.getType() == 2) {
+                    receiving = true;
+                } else if (receiver && currentCall.getType() == 2) {
+                    sending = true;
+                } else {
+                    sending = true;
+                    receiving = true;
+                }
+                try {
+
+                    while (true) {
+                        Message message = (Message) objectInputStream.readObject();
+
+                        if(message.getType() == 20) {
+                            //encoding message
+                            currentCall.setFormat((AudioFormat)message.getData());
+                        } else if (message.getType() == 40) {
+                            //audio data
+                            if(sending) {
+                                if(sender) {
+                                    currentCall.writeToQueue(0, (Byte)message.getData());
+                                } else {
+                                    currentCall.writeToQueue(1, (Byte)message.getData());
+                                }
+                            }
+                            //TODO make current call sync cause its accessed by two threads.
+
+                            if (receiving){
+                                if(sender) {
+                                    currentCall.readFromQueue(1);
+                                } else {
+                                    currentCall.writeToQueue(0);
+                                }
+                            }
+
+                        } else if (message.getType() == 30) {
+                            //end signal
+                        }
+
+                    }
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
-
-        public boolean isReady() {
-            return ready;
-        }
-    }
 
     private class Manager implements Runnable {
         //TODO implement Manager
@@ -536,7 +465,7 @@ public class Server {
                 try {
                     Thread.sleep(1000); //check for end of connections every 1 second
                     synchronized (outputKey) {
-                        System.out.println("Checking for logoffs");
+                        //System.out.println("Checking for logoffs");
                     }
 
                     /* check for connections that have terminated */
@@ -556,15 +485,15 @@ public class Server {
 
                     /* check for connections that want to talk to each other */
 
-                    synchronized (connectionKey) {
-                        if(connections.size() != 0) {
-                            for(int i = 0; i < connections.size(); i++) {
-                                if(connections.getConnection(i).isReady()) {
-
-                                }
-                            }
-                        }
-                    }
+//                    synchronized (connectionKey) {
+//                        if(connections.size() != 0) {
+//                            for(int i = 0; i < connections.size(); i++) {
+//                                if(connections.getConnection(i).isReady()) {
+//
+//                                }
+//                            }
+//                        }
+//                    }
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }

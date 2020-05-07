@@ -2,51 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_4_20__8_03_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Message.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/out/production/Server/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/CircularArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Call.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Call.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Server.java" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Message.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="19" column="40" lean-forward="true" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Client.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="425" column="59" selection-start-line="425" selection-start-column="59" selection-end-line="425" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Request.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="51" column="50" selection-start-line="51" selection-start-column="50" selection-end-line="51" selection-end-column="50" />
-              <folding>
-                <element signature="e#1106#1107#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -55,56 +31,12 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>accept</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/Message.java" />
-        <option value="$PROJECT_DIR$/src/Request.java" />
-        <option value="$PROJECT_DIR$/src/Client.java" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1411" />
-    <option name="width" value="518" />
-    <option name="height" value="1038" />
   </component>
   <component name="ProjectId" id="1ZmR0LxKFQRXGs3yftL45x0sbHY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -116,25 +48,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588635712794" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -164,68 +83,42 @@
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="1129" y="0" width="414" height="830" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.50872093" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="ConsoleMavenPlugin" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588577324279">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588577324279" />
-    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1588606527387">
+    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1588637878317">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1588606527387" />
+    <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1588637878317" />
+    <state x="67" y="27" width="1843" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588637337536">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="67" y="27" width="1843" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588637337536" />
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1585445985013">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1585445985013" />
-    <state width="881" height="280" key="GridCell.Tab.0.bottom" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.bottom" timestamp="1588643212689">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
-    <state width="881" height="280" key="GridCell.Tab.0.center" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
+    <state width="920" height="280" key="GridCell.Tab.0.center" timestamp="1588643212688">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
-    <state width="881" height="280" key="GridCell.Tab.0.left" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
+    <state width="920" height="280" key="GridCell.Tab.0.left" timestamp="1588643212688">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
-    <state width="881" height="280" key="GridCell.Tab.0.right" timestamp="1588613398891">
+    <state width="920" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
+    <state width="920" height="280" key="GridCell.Tab.0.right" timestamp="1588643212689">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="881" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588613398891" />
+    <state width="920" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
     <state width="881" height="344" key="GridCell.Tab.1.bottom" timestamp="1585466807790">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -242,39 +135,21 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="881" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
+    <state x="409" y="467" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588638267197">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="409" y="467" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1853.1053@67.27.1853.1053" timestamp="1588638267197" />
     <state x="302" y="154" width="1372" height="796" key="new project wizard" timestamp="1585445743242">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="302" y="154" width="1372" height="796" key="new project wizard/67.27.1853.1053@67.27.1853.1053" timestamp="1585445743242" />
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1585507064767">
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1588646269191">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1585507064767" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="19" column="40" lean-forward="true" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Request.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="51" column="50" selection-start-line="51" selection-start-column="50" selection-end-line="51" selection-end-column="50" />
-          <folding>
-            <element signature="e#1106#1107#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="425" column="59" selection-start-line="425" selection-start-column="59" selection-end-line="425" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1588646269191" />
+    <state x="275" y="466" width="540" height="172" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1588645817948">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="275" y="466" width="540" height="172" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588645817948" />
   </component>
 </project>
