@@ -693,14 +693,23 @@ public class Client {
                 int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
                 byte[] buffer = new byte[bufferSize];
 
+                File file = new File("data.dat");
+                FileWriter fw = new FileWriter(file);
+
+
                 while(true) {
                     //do a record
                     //send to server a packet
                     int count = line.read(buffer, 0, bufferSize);
 
+                    for(int i = 0; i < bufferSize; i++) {
+                        fw.write(buffer[i] + " ");
+                    }
+                    fw.write("End Buffer");
                     try {
                         //write the audio data from the mic to the server
-                        objectOutputStream.writeObject(new Message(40, buffer));
+                        objectOutputStream.write(buffer);
+                        objectOutputStream.write(1);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -732,6 +741,7 @@ public class Client {
 
                     synchronized (runningKey) {
                         if(!running) {
+                            objectOutputStream.write(0);
                             break;
                         }
                     }
@@ -797,10 +807,10 @@ public class Client {
                 while (true) {
                     //listen to server and play in speaker
 
-                    message = (Message) objectInputStream.readObject();
+                    objectInputStream.read(buffer, 0, buffer.length);
 
-                    if (message.getType() == 40) {
-                        buffer = (byte[]) message.getData();
+                    //if (message.getType() == 40) {
+                        //buffer =  message.getData();
                         //TODO there might be a continuity issue right here because the client has to wait for the clip to stop before it can get the next frame
                         //play to speakers
                         InputStream is = new ByteArrayInputStream(buffer);
@@ -811,11 +821,11 @@ public class Client {
                         Thread.sleep(clip.getMicrosecondLength());
                         clip.stop();
 
-                    } else if(message.getType() == 30) {
-                        if((Byte) message.getData() != 1) {
+                    //} else if(message.getType() == 30) {
+                        /*if((Byte) message.getData() != 1) {
                             break;
                         }
-                    }
+                    //}*/
 
                     synchronized (runningKey) {
                         if (!this.running) {

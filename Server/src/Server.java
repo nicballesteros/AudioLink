@@ -418,36 +418,61 @@ public class Server {
                 }
                 try {
 
-                    while (true) {
-                        Message message = (Message) objectInputStream.readObject();
+                    //while (true) {
+                    Message message = (Message) objectInputStream.readObject();
 
-                        if(message.getType() == 20) {
-                            //encoding message
-                            currentCall.setFormat((AudioFormat)message.getData());
-                        } else if (message.getType() == 40) {
-                            //audio data
-                            if(sending) {
-                                if(sender) {
-                                    currentCall.writeToQueue(0, (Byte)message.getData());
+                    if (message.getType() == 20) {
+                        //encoding message
+                        currentCall.setFormat((AudioFormat) message.getData());
+
+                        while(true) {
+                            if (sending) {
+                                if (sender) {
+                                    currentCall.writeToQueue(0, (byte)objectInputStream.read());
                                 } else {
-                                    currentCall.writeToQueue(1, (Byte)message.getData());
+                                    currentCall.writeToQueue(1, (byte)objectInputStream.read());
                                 }
                             }
                             //TODO make current call sync cause its accessed by two threads.
 
-                            if (receiving){
-                                if(sender) {
-                                    currentCall.readFromQueue(1);
+                            if (receiving) {
+                                if (sender) {
+                                    objectOutputStream.write(currentCall.readFromQueue(1));
                                 } else {
-                                    currentCall.writeToQueue(0);
+                                    objectOutputStream.write(currentCall.readFromQueue(0));
                                 }
                             }
-
-                        } else if (message.getType() == 30) {
-                            //end signal
                         }
 
+                    } else {
+
+                        //error
+
+
                     }
+                        /*if (message.getType() == 40) {
+                        //audio data
+                        if (sending) {
+                            if (sender) {
+                                currentCall.writeToQueue(0, (Byte[]) message.getData());
+                            } else {
+                                currentCall.writeToQueue(1, (Byte) message.getData());
+                            }
+                        }
+                        //TODO make current call sync cause its accessed by two threads.
+
+                        if (receiving) {
+                            if (sender) {
+                                currentCall.readFromQueue(1);
+                            } else {
+                                currentCall.readFromQueue(0);
+                            }
+                        }
+
+                    } else if (message.getType() == 30) {
+                        //end signal
+                    }*/
+                //}
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 } catch (IOException ioException) {
