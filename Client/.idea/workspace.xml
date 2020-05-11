@@ -1,28 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="">
+    <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="Added circular array to Client so that server would no longer give an error">
+      <change afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioListener.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioRecorder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Client/Client.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Client/Message.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Client/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RecordingFormat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/src/RecordingFormat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Call.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Call.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Server.java" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="351" selection-start-line="351" selection-end-line="351" />
+            <state relative-caret-position="79">
+              <caret line="817" column="70" selection-start-line="817" selection-start-column="70" selection-end-line="817" selection-end-column="70" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/RecordingFormat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -31,7 +54,7 @@
         <entry file="file://$PROJECT_DIR$/src/Message.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
-              <caret line="17" column="43" lean-forward="true" selection-end-line="47" />
+              <caret line="17" column="43" selection-end-line="47" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#736#737#0" expanded="true" />
@@ -44,8 +67,21 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Call.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="105" lean-forward="true" selection-start-line="105" selection-end-line="105" />
+            <state relative-caret-position="339">
+              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+              <folding>
+                <element signature="e#668#669#0" expanded="true" />
+                <element signature="e#697#698#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CircularArray.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -62,6 +98,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Calling</find>
+      <find>new Message(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -71,9 +108,17 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Message.java" />
+        <option value="$PROJECT_DIR$/src/RecordingFormat.java" />
+        <option value="$PROJECT_DIR$/src/Client.java" />
         <option value="$PROJECT_DIR$/src/Call.java" />
       </list>
     </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="723" />
+    <option name="y" value="-19" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectId" id="1ZmR0LxKFQRXGs3yftL45x0sbHY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -84,6 +129,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -100,8 +147,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -114,7 +159,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589163062432" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1589171106169" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
@@ -160,41 +205,53 @@
       <option name="presentableId" value="Default" />
       <updated>1585442058177</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added circular array to Client so that server would no longer give an error">
+      <created>1589163138477</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589163138478</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="762" y="0" width="781" height="830" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="UI Designer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Learn" weight="0.32871014" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24965326" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="ConsoleMavenPlugin" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" weight="0.3295129" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.25658807" />
+      <window_info id="Structure" order="1" side_tool="true" visible="true" weight="0.12080537" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Learn" order="6" weight="0.32871014" />
+      <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3295129" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39971346" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32577905" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="ConsoleMavenPlugin" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3295129" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3295129" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
     </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added circular array to Client so that server would no longer give an error" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added circular array to Client so that server would no longer give an error" />
   </component>
   <component name="WindowStateProjectService">
     <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588577324279">
@@ -267,25 +324,42 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Client.java</url>
-          <line>352</line>
+          <line>443</line>
           <properties />
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Client.java</url>
+          <line>819</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Client.java</url>
+          <line>697</line>
+          <properties />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Client.java</url>
+          <line>828</line>
+          <properties />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Client.java</url>
+          <line>839</line>
+          <properties />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="351" selection-start-line="351" selection-end-line="351" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
-          <caret line="17" column="43" lean-forward="true" selection-end-line="47" />
+          <caret line="17" column="43" selection-end-line="47" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#736#737#0" expanded="true" />
@@ -294,10 +368,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/CircularArray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/RecordingFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="817" column="70" selection-start-line="817" selection-start-column="70" selection-end-line="817" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Call.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="105" lean-forward="true" selection-start-line="105" selection-end-line="105" />
+        <state relative-caret-position="339">
+          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+          <folding>
+            <element signature="e#668#669#0" expanded="true" />
+            <element signature="e#697#698#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

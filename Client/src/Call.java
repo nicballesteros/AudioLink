@@ -9,16 +9,16 @@ public class Call implements Serializable {
     private boolean accepted;
     private CircularArray senderQueue;    //sender's mic
     private CircularArray recipientQueue; //recipient's mic
-    private AudioFormat format;
-
+    private RecordingFormat format;
+    //TODO add a timer so that the person seeing "calling" doesnt sit in an infinite loop. NOT IN THIS FILE!!!!!
     public static final Object senderKey = new Object();
     public static final Object recipientKey = new Object();
 
-    public AudioFormat getFormat() {
+    public RecordingFormat getFormat() {
         return format;
     }
 
-    public void setFormat(AudioFormat format) {
+    public void setFormat(RecordingFormat format) {
         this.format = format;
     }
 
@@ -58,10 +58,27 @@ public class Call implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Call call = (Call) o;
+
+        if(call.getType() == this.type && this.type == 3) {
+            if(Objects.equals(recipient, call.recipient) &&
+                    Objects.equals(sender, call.sender) || Objects.equals(sender, call.recipient) &&
+                    Objects.equals(recipient, call.sender)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (this.type == 1 && call.type == 2 || this.type == 2 && call.type == 1) {
+            if(this.sender.equals(call.recipient) && this.recipient.equals(call.sender)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         return type == call.type &&
                 Objects.equals(recipient, call.recipient) &&
                 Objects.equals(sender, call.sender) ||
-                type != call.type &&
+                type == 3 &&
                         Objects.equals(sender, call.recipient) &&
                         Objects.equals(recipient, call.sender);
     }
@@ -82,6 +99,7 @@ public class Call implements Serializable {
             }
         } else if (queueNumber == 1) { //recipient queue
             synchronized (recipientKey) {
+                System.out.println(b);
                 recipientQueue.write(b);
             }
         } else {

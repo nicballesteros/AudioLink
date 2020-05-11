@@ -342,17 +342,20 @@ public class Client {
             }
 
             Call call = new Call(me, to, choice);
-            System.out.println(choice);
+            //System.out.println(choice);
             if (choice >= 1 && choice <= 3) {
                 //send that request to the server so that the user that has a request can see it.
                 objectOutputStream.writeObject(new Message(6, call));
                 System.out.println("Calling"); //TODO add some ringing animations
 //NOTE there will not be a way to get out of the call
                 try {
-                    if (((Message) objectInputStream.readObject()).getType() == 6) { //hang here
+                    Message message = (Message) objectInputStream.readObject();
+                    if (message.getType() == 6) { //hang here
                         System.out.println(to.getUsername() + " has answered\n");
-                        currentCall = call;
+                        currentCall = (Call) message.getData();
                         enterCall();
+                    } else {
+                        System.out.println("error");
                     }
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
@@ -416,34 +419,41 @@ public class Client {
             //start a thread that listens to this users mic and sends it over to server
             microphone = new AudioRecorder(objectOutputStream, objectInputStream);
             recorder = new Thread(microphone);
+            recorder.start();
 //            listener = new Thread(new AudioRecorder(objectOutputStream));
         } else if (currentCall.getSender().equals(me) && currentCall.getType() == 2) {
             //start a thread that takes server data and sends to speakers
             speaker = new AudioListener(objectInputStream, objectOutputStream);
             listener = new Thread(speaker);
+            listener.start();
         } else {
             //start both.
             microphone = new AudioRecorder(objectOutputStream, objectInputStream);
             recorder = new Thread(microphone);
 
+            recorder.start();
+
             speaker = new AudioListener(objectInputStream, objectOutputStream);
             listener = new Thread(speaker);
+
+            listener.start();
         }
 
         String userInput = "";
 
         while(!userInput.equals("end")) {
+            System.out.println("Listening and Recording");
             if(scanner.hasNextLine()) {
                 userInput = scanner.nextLine();
             }
             if(microphone != null) {
-                if(microphone.isRunning()) {
+                if(!microphone.isRunning()) {
                     break;
                 }
             }
 
             if(speaker != null) {
-                if(speaker.isRunning()) {
+                if(!speaker.isRunning()) {
                     break;
                 }
             }
@@ -678,9 +688,12 @@ public class Client {
         public void run() {
             try {
                 //send server the encoding of the mic
-                AudioFormat format = new AudioFormat(8000, 8, 1, true, true);
+                RecordingFormat recordingFormat = new RecordingFormat(8000, 8, 1, true, true);
+                AudioFormat format = recordingFormat.getAudioFormat();
 
-                objectOutputStream.writeObject(new Message(20, format));
+                //String formatString = "8000,8,1,true,true";
+
+                objectOutputStream.writeObject(new Message(20, recordingFormat));
 
                 TargetDataLine line;
 
@@ -693,19 +706,20 @@ public class Client {
                 int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
                 byte[] buffer = new byte[bufferSize];
 
-                File file = new File("data.dat");
-                FileWriter fw = new FileWriter(file);
+                //File file = new File("data.dat");
+                //FileWriter fw = new FileWriter(file);
 
 
                 while(true) {
+                    System.out.println("Recording");
                     //do a record
                     //send to server a packet
                     int count = line.read(buffer, 0, bufferSize);
-
-                    for(int i = 0; i < bufferSize; i++) {
-                        fw.write(buffer[i] + " ");
-                    }
-                    fw.write("End Buffer");
+                    //TODO check for an error. If count is not as big as buffersize
+//                    for(int i = 0; i < bufferSize; i++) {
+//                        fw.write(buffer[i] + " ");
+//                    }
+//                    fw.write("End Buffer");
                     try {
                         //write the audio data from the mic to the server
                         objectOutputStream.write(buffer);
@@ -799,16 +813,26 @@ public class Client {
                     message = (Message) objectInputStream.readObject();
                 }
 
-                AudioFormat format = (AudioFormat) message.getData();
+                RecordingFormat recordingFormat = (RecordingFormat) message.getData();
+
+                AudioFormat format = recordingFormat.getAudioFormat();
 
                 int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
                 byte[] buffer = new byte[bufferSize];
+
+                File file = new File("inputstream.dat");
+                FileWriter writer = new FileWriter(file);
 
                 while (true) {
                     //listen to server and play in speaker
 
                     objectInputStream.read(buffer, 0, buffer.length);
+                    for(int i = 0; i < bufferSize; i++) {
+                        writer.write(buffer[i]);
+                    }
+                    writer.write("\n");
 
+                    writer.close();
                     //if (message.getType() == 40) {
                         //buffer =  message.getData();
                         //TODO there might be a continuity issue right here because the client has to wait for the clip to stop before it can get the next frame
@@ -818,7 +842,7 @@ public class Client {
                         Clip clip = AudioSystem.getClip();
                         clip.open(ais);
                         clip.start();
-                        Thread.sleep(clip.getMicrosecondLength());
+                        //Thread.sleep(clip.getMicrosecondLength());
                         clip.stop();
 
                     //} else if(message.getType() == 30) {
@@ -845,9 +869,11 @@ public class Client {
                 unsupportedAudioFileException.printStackTrace();
             } catch (LineUnavailableException lineUnavailableException) {
                 lineUnavailableException.printStackTrace();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
             }
+//            } catch (InterruptedException interruptedException) {
+//                interruptedException.printStackTrace();
+//            }
+
         }
 
         public void stopListening() {

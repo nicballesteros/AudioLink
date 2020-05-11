@@ -272,7 +272,7 @@ public class Server {
 
                 if(found) {
                     callWeNeed.accept();
-                    objectOutputStream.writeObject(new Message(8));
+                    objectOutputStream.writeObject(new Message(6));
                     this.currentCall = callWeNeed;
                 } else {
                     //TODO send error
@@ -328,8 +328,9 @@ public class Server {
 
             private void addRequest(Message message) throws IOException {
                 Call call = (Call) message.getData();
-
+                boolean found = false;
                 synchronized (callKey) { //check to see if a call request for this has already been made.
+                    this.currentCall = call;
                     for(int i = 0; i < calls.size(); i++) {
 
                         if(calls.get(i).equals(call)) {
@@ -337,24 +338,38 @@ public class Server {
                             this.currentCall = calls.get(i);
                             calls.remove(this.currentCall);
                             currentCall.accept();
+                            objectOutputStream.writeObject(new Message(6, currentCall));
+                            System.out.println("Sent call in " + Thread.currentThread().getName());
 
-                            return;
+                            found = true;
+                            break;
                         }
                     }
-
-                    calls.add(call);
+                    if(!found) {
+                        calls.add(call);
+                    }
                 }
 
-
+                if(found) {
+                    enterCall();
+                    System.out.println("Exit call");
+                    return;
+                }
                 //wait for other user to accept call request
 
                 while(true) {
                     try {
                         Thread.sleep(1000);
+                        synchronized (callKey) {
+                            System.out.println("Checking call");
+                            if (this.currentCall.isAccepted()) {
+                                //the client will hang until this is called
+                                System.out.println("wooooo");
+                                objectOutputStream.writeObject(new Message(6, currentCall));
+                                System.out.println("Send call in " + Thread.currentThread().getName());
 
-                        if(this.currentCall.isAccepted()) {
-                            //the client will hang until this is called
-                            objectOutputStream.writeObject(new Message(6, call));
+                                break;
+                            }
                         }
 
     //                    this.currentCall.getRecipient();
@@ -362,6 +377,10 @@ public class Server {
                         interruptedException.printStackTrace();
                     }
                 }
+                System.out.println("Exit loop");
+
+                enterCall();
+                System.out.println("Exit call");
             }
 
             private void sendAllRequests() throws IOException {
@@ -398,58 +417,94 @@ public class Server {
                 boolean sender = false;
                 boolean receiver = false;
 
-                if(currentCall.getSender().equals(thisUser)) {
-                    sender = true;
-                } else {
-                    receiver = true;
+//                for(int i = 0; i < 1000000000; i++);
+//                System.out.println("ahh");
+                synchronized (callKey) {
+                    if (currentCall.getSender().equals(thisUser)) {
+                        sender = true;
+                    } else {
+                        receiver = true;
+                    }
+
+                    if (sender && currentCall.getType() == 1) {
+                        sending = true;
+                    } else if (receiver && currentCall.getType() == 1) {
+                        receiving = true;
+                    } else if (sender && currentCall.getType() == 2) {
+                        receiving = true;
+                    } else if (receiver && currentCall.getType() == 2) {
+                        sending = true;
+                    } else {
+                        sending = true;
+                        receiving = true;
+                    }
                 }
 
-                if(sender && currentCall.getType() == 1) {
-                    sending = true;
-                } else if (receiver && currentCall.getType() == 1) {
-                    receiving = true;
-                } else if (sender && currentCall.getType() == 2) {
-                    receiving = true;
-                } else if (receiver && currentCall.getType() == 2) {
-                    sending = true;
-                } else {
-                    sending = true;
-                    receiving = true;
-                }
                 try {
 
                     //while (true) {
-                    Message message = (Message) objectInputStream.readObject();
+                    if(sending) {
+                        Message message = (Message) objectInputStream.readObject();
+                        RecordingFormat recordingFormat = (RecordingFormat) message.getData();
 
-                    if (message.getType() == 20) {
+                        //String[] parameters = formatString.split(",");
+
+                        AudioFormat format = recordingFormat.getAudioFormat();
+                        currentCall.setFormat(recordingFormat);
+                    }
+
+                    if(receiving) {
+                        while(true) {
+                            synchronized (callKey) {
+                                if (currentCall.getFormat() != null) {
+                                    AudioFormat format = currentCall.getFormat().getAudioFormat();
+                                    objectOutputStream.writeObject(new Message(20, new RecordingFormat(format.getSampleRate(), format.getSampleSizeInBits(), format.getChannels(), true, format.isBigEndian())));
+                                }
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException interupptedException) {
+                                    interupptedException.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+
+//                    if (message.getType() == 20) {
                         //encoding message
-                        currentCall.setFormat((AudioFormat) message.getData());
 
                         while(true) {
                             if (sending) {
                                 if (sender) {
-                                    currentCall.writeToQueue(0, (byte)objectInputStream.read());
+                                    synchronized (callKey) {
+                                        currentCall.writeToQueue(0, (byte) objectInputStream.read());
+                                    }
                                 } else {
-                                    currentCall.writeToQueue(1, (byte)objectInputStream.read());
+                                    synchronized (callKey) {
+                                        currentCall.writeToQueue(1, (byte) objectInputStream.read());
+                                    }
                                 }
                             }
                             //TODO make current call sync cause its accessed by two threads.
 
                             if (receiving) {
                                 if (sender) {
-                                    objectOutputStream.write(currentCall.readFromQueue(1));
+                                    synchronized (callKey) {
+                                        objectOutputStream.write(currentCall.readFromQueue(1));
+                                    }
                                 } else {
-                                    objectOutputStream.write(currentCall.readFromQueue(0));
+                                    synchronized (callKey) {
+                                        objectOutputStream.write(currentCall.readFromQueue(0));
+                                    }
                                 }
                             }
                         }
 
-                    } else {
+//                    } else {
 
                         //error
 
 
-                    }
+//                    }
                         /*if (message.getType() == 40) {
                         //audio data
                         if (sending) {
