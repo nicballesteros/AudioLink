@@ -2,91 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="Added circular array to Client so that server would no longer give an error">
-      <change afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioListener.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioRecorder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Client/Client.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Client/Message.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Client/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RecordingFormat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/RecordingFormat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Call.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/Call.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Call.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/CircularArray$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/CircularArray$Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/CircularArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/CircularArray.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/Client$AudioListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/Client$AudioRecorder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioRecorder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Message.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/RecordingFormat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/RecordingFormat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Client/inputstream.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Call.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Call.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray$Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Message.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/RecordingFormat.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/RecordingFormat.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Call.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/User.class" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Client.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="817" column="70" selection-start-line="817" selection-start-column="70" selection-end-line="817" selection-end-column="70" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/RecordingFormat.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Message.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="43" selection-end-line="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#736#737#0" expanded="true" />
-                <element signature="e#763#764#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Call.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
-              <folding>
-                <element signature="e#668#669#0" expanded="true" />
-                <element signature="e#697#698#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CircularArray.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -104,50 +46,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/Message.java" />
-        <option value="$PROJECT_DIR$/src/RecordingFormat.java" />
-        <option value="$PROJECT_DIR$/src/Client.java" />
-        <option value="$PROJECT_DIR$/src/Call.java" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="723" />
-    <option name="y" value="-19" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
-  </component>
   <component name="ProjectId" id="1ZmR0LxKFQRXGs3yftL45x0sbHY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -166,18 +67,6 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -215,39 +104,8 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.25658807" />
-      <window_info id="Structure" order="1" side_tool="true" visible="true" weight="0.12080537" />
-      <window_info id="Designer" order="2" />
-      <window_info id="Image Layers" order="3" />
-      <window_info id="Capture Tool" order="4" />
-      <window_info id="UI Designer" order="5" />
-      <window_info id="Learn" order="6" weight="0.32871014" />
-      <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32577905" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39943343" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="ConsoleMavenPlugin" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3295129" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.3295129" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-    </layout>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added circular array to Client so that server would no longer give an error" />
@@ -258,6 +116,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="786" y="140" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588577324279" />
+    <state x="153" y="342" width="642" height="403" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1589312936945">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="153" y="342" width="642" height="403" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589312936945" />
     <state x="338" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1588637878317">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -270,21 +132,25 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1585445985013" />
-    <state width="920" height="280" key="GridCell.Tab.0.bottom" timestamp="1588643212689">
-      <screen x="67" y="27" width="1853" height="1053" />
+    <state width="912" height="284" key="GridCell.Tab.0.bottom" timestamp="1589312979458">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="912" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589312979458" />
     <state width="920" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
-    <state width="920" height="280" key="GridCell.Tab.0.center" timestamp="1588643212688">
-      <screen x="67" y="27" width="1853" height="1053" />
+    <state width="912" height="284" key="GridCell.Tab.0.center" timestamp="1589312979457">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="912" height="284" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589312979457" />
     <state width="920" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
-    <state width="920" height="280" key="GridCell.Tab.0.left" timestamp="1588643212688">
-      <screen x="67" y="27" width="1853" height="1053" />
+    <state width="912" height="284" key="GridCell.Tab.0.left" timestamp="1589312979456">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="912" height="284" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589312979456" />
     <state width="920" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
-    <state width="920" height="280" key="GridCell.Tab.0.right" timestamp="1588643212689">
-      <screen x="67" y="27" width="1853" height="1053" />
+    <state width="912" height="284" key="GridCell.Tab.0.right" timestamp="1589312979457">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="912" height="284" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589312979457" />
     <state width="920" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
     <state width="881" height="344" key="GridCell.Tab.1.bottom" timestamp="1585466807790">
       <screen x="67" y="27" width="1853" height="1053" />
@@ -325,83 +191,14 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Client.java</url>
           <line>443</line>
-          <properties />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Client.java</url>
-          <line>819</line>
-          <properties />
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Client.java</url>
           <line>697</line>
-          <properties />
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Client.java</url>
-          <line>828</line>
-          <properties />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Client.java</url>
-          <line>839</line>
-          <properties />
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="43" selection-end-line="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#736#737#0" expanded="true" />
-            <element signature="e#763#764#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CircularArray.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/RecordingFormat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="817" column="70" selection-start-line="817" selection-start-column="70" selection-end-line="817" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Call.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
-          <folding>
-            <element signature="e#668#669#0" expanded="true" />
-            <element signature="e#697#698#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>
