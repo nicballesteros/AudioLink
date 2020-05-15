@@ -145,7 +145,6 @@ public class Client {
         System.out.println("In the main menu");
 
         recorder.start();
-        listener.start();
     }
 
     public void updateUser() throws IOException {
@@ -425,9 +424,9 @@ public class Client {
     public void listenToAudio() throws IOException {
         //show the client the available users they can connect to
         this.getOnlineUsers();
-        this.printOnlineUsers(false);
+        this.printOnlineUsers(true);
 
-        if(users.size() == 1) {
+        if(users.size() == 0) { //TODO change value back to 1
             System.out.println("No users to call. Returning to main menu.\n");
             return;
         }
@@ -444,7 +443,7 @@ public class Client {
 
         if(id == me.getId()) {
             System.out.println("Cannot listen to yourself\n");
-            return;
+            //return; TODO uncomment this
         }
 
         User to = null;
@@ -898,7 +897,7 @@ public class Client {
 
                     try {
                         //write the audio data from the mic to the server
-                        bufferedOutputStream.write(buffer);
+                        outputStream.write(buffer);
 //                        objectOutputStream.write(1);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
@@ -940,28 +939,20 @@ public class Client {
         @Override
         public void run() {
             try {
-                int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
-                byte[] buffer = new byte[bufferSize];
+                int chunkSize = 64;
+
+//                int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
+                byte[] buffer = new byte[chunkSize];
+
 
                 while (this.running.get()) {
                     //listen to server and play in speaker
-                    bufferedInputStream.read(buffer, 0, buffer.length);
-                    //TODO there might be a continuity issue right here because the client has to wait for the clip to stop before it can get the next frame
-                    //play to speakers
-                    InputStream is = new ByteArrayInputStream(buffer);
-                    AudioInputStream ais = AudioSystem.getAudioInputStream(is);
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(ais);
-                    clip.start();
-                    //Thread.sleep(clip.getMicrosecondLength());
-                    clip.stop();
+                    bufferedInputStream.read(buffer, 0, chunkSize);
+
+                    speakerLine.write(buffer, 0 , buffer.length);
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace(); //TODO if exception is ever thrown in this stage shut down everything... like all calls
-            } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
-                unsupportedAudioFileException.printStackTrace();
-            } catch (LineUnavailableException lineUnavailableException) {
-                lineUnavailableException.printStackTrace();
             }
         }
 

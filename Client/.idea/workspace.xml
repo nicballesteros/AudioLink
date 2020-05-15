@@ -3,17 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="Added circular array to Client so that server would no longer give an error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Client/Client$AudioListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Client/Client$AudioRecorder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Client$AudioRecorder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Client/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Client/Client.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray$Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/CircularArray.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Connection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$Manager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList$Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server$UserList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/out/production/Server/Server.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/CircularArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/CircularArray.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/Server.java" afterDir="false" />
     </list>
@@ -119,50 +109,54 @@
     </state>
     <state x="735" y="290" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589347330678" />
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1585445985013" />
-    <state width="1874" height="284" key="GridCell.Tab.0.bottom" timestamp="1589507535486">
+    <state width="914" height="284" key="GridCell.Tab.0.bottom" timestamp="1589568122249">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589507535486" />
+    <state width="914" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589568122249" />
     <state width="920" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
-    <state width="1874" height="284" key="GridCell.Tab.0.center" timestamp="1589507535485">
+    <state width="914" height="284" key="GridCell.Tab.0.center" timestamp="1589568122248">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589507535485" />
+    <state width="914" height="284" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589568122248" />
     <state width="920" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
-    <state width="1874" height="284" key="GridCell.Tab.0.left" timestamp="1589507535485">
+    <state width="914" height="284" key="GridCell.Tab.0.left" timestamp="1589568122247">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589507535485" />
+    <state width="914" height="284" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589568122247" />
     <state width="920" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
-    <state width="1874" height="284" key="GridCell.Tab.0.right" timestamp="1589507535485">
+    <state width="914" height="284" key="GridCell.Tab.0.right" timestamp="1589568122248">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589507535485" />
+    <state width="914" height="284" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589568122248" />
     <state width="920" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
-    <state width="1874" height="351" key="GridCell.Tab.1.bottom" timestamp="1589507356099">
+    <state width="914" height="351" key="GridCell.Tab.1.bottom" timestamp="1589566066437">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589507356099" />
+    <state width="914" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589566066437" />
     <state width="881" height="344" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807790" />
-    <state width="1874" height="351" key="GridCell.Tab.1.center" timestamp="1589507356098">
+    <state width="914" height="351" key="GridCell.Tab.1.center" timestamp="1589566066437">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="351" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589507356098" />
+    <state width="914" height="351" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589566066437" />
     <state width="881" height="344" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
-    <state width="1874" height="351" key="GridCell.Tab.1.left" timestamp="1589507356098">
+    <state width="914" height="351" key="GridCell.Tab.1.left" timestamp="1589566066437">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="351" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589507356098" />
+    <state width="914" height="351" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589566066437" />
     <state width="881" height="344" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
-    <state width="1874" height="351" key="GridCell.Tab.1.right" timestamp="1589507356099">
+    <state width="914" height="351" key="GridCell.Tab.1.right" timestamp="1589566066437">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="351" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589507356099" />
+    <state width="914" height="351" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589566066437" />
     <state width="881" height="344" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1585466807789" />
     <state x="409" y="467" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588638267197">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="409" y="467" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1853.1053@67.27.1853.1053" timestamp="1588638267197" />
+    <state x="28" y="252" width="894" height="583" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1589562837747">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="28" y="252" width="894" height="583" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1080@0.0.1920.1080" timestamp="1589562837747" />
     <state x="243" y="130" width="1372" height="796" key="new project wizard" timestamp="1589347337100">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -177,5 +171,16 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="275" y="466" width="540" height="172" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588645817948" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Client.java</url>
+          <line>951</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

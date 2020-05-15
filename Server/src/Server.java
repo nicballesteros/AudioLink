@@ -24,12 +24,12 @@ public class Server {
 
     private AudioFormat format;
 
-    public static boolean readQueue(int id, byte byteToPopulate) {
+    public static boolean readQueue(int id, byte[] byteToPopulate) {
         synchronized (connectionKey) {
             for(int i = 0; i < connections.size(); i++) {
                 Connection connection = connections.getConnection(i);
                 if(connection.getID() == id) {
-                    byteToPopulate = connection.readQueue();
+                    byteToPopulate[0] = connection.readQueue();
                     //TODO implement readQueue in Connection
                     return true;
                 }
@@ -259,18 +259,24 @@ public class Server {
 
                 //TODO spawn another thread that has the sole purpose of updating the queue
 
+
+
                 queueWriter = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             BufferedInputStream bufIn = new BufferedInputStream(audioSocket.getInputStream());
 
-                            byte[] oneByte = new byte[1];
+                            int chunkSize = 64;
+
+                            byte[] oneByte = new byte[chunkSize];
 
                             while(queueRunning.get()) {
                                 synchronized (queueKey) {
-                                    bufIn.read(oneByte, 0, 1);
-                                    queue.write(oneByte[0]);
+                                    bufIn.read(oneByte, 0, chunkSize);
+                                    for(byte b : oneByte) {
+                                        queue.write(b);
+                                    }
                                 }
                             }
                         } catch (IOException ioException) {
@@ -282,16 +288,30 @@ public class Server {
                 queueWriter.start();
 
                 queueReader = new Thread(new Runnable() {
+                    private boolean read(byte[] buffer) {
+                        byte[] b = { 0 };
+                        for(int i = 0; i < buffer.length; i++) {
+                            if(!readOtherQueue(b)) {
+                                return false;
+                            } else {
+                                buffer[i] = b[0];
+                            }
+                        }
+                        return true;
+                    }
+
                     @Override
                     public void run() {
                         try {
                             BufferedOutputStream bufOut = new BufferedOutputStream(audioSocket.getOutputStream());
 
-                            byte[] oneByte = new byte[1];
+                            int chunkSize = 64;
 
-                            while(queueRunning.get() && queueReaderRunning.get()) {
+                            byte[] oneByte = new byte[chunkSize];
+
+                            while(queueReaderRunning.get()) {
                                 synchronized (queueKey) {
-                                    if(!readOtherQueue(oneByte[0])) {
+                                    if(!read(oneByte)) {
                                         break;
                                     } else {
                                         bufOut.write(oneByte);
@@ -368,9 +388,11 @@ public class Server {
                             print(Thread.currentThread() + ": has stopped listening to the audio from the user with id " + this.otherConnectionID.get());
                         } else if (request.getType() == 80) {
                             this.mute.set(true);
+                            System.out.println(" is muted");
                             objectOutputStream.writeObject(new Message(80));
                         } else if (request.getType() == 85) {
                             this.mute.set(false);
+                            System.out.println(" is unmuted");
                             objectOutputStream.writeObject(new Message(85));
                         }
                         else if (request.getType() == -1) {
@@ -475,7 +497,7 @@ public class Server {
             }
 
 
-            private boolean readOtherQueue(byte byteToPopulate) {
+            private boolean readOtherQueue(byte[] byteToPopulate) {
                 return Server.readQueue(otherConnectionID.get(), byteToPopulate);
             }
 

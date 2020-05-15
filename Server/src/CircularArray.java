@@ -29,7 +29,7 @@ public class CircularArray {
 
     private class Node {
         public Node link;
-        private Node backwardLink;
+//        private Node backwardLink;
         private int elementNumber;
         private byte data;
 
@@ -52,6 +52,9 @@ public class CircularArray {
             this.currentNodeID++;
             this.writeNode.setData(b);
             this.writeNode = this.writeNode.link; //go to next element
+            if(writeNode.elementNumber == 0) {
+                currentNodeID = 0;
+            }
             queueKey.notify();
         }
     }
