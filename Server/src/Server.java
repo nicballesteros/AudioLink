@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Nic Ballesteros
@@ -15,9 +17,27 @@ public class Server {
     private int port;
     private AudioInputStream audioInputStream;
     private ServerSocket server;
+    private ServerSocket audioServer;
     private File audioFile;
     private Clip clip;
     private Manager manager;
+
+    private AudioFormat format;
+
+    public static boolean readQueue(int id, byte byteToPopulate) {
+        synchronized (connectionKey) {
+            for(int i = 0; i < connections.size(); i++) {
+                Connection connection = connections.getConnection(i);
+                if(connection.getID() == id) {
+                    byteToPopulate = connection.readQueue();
+                    //TODO implement readQueue in Connection
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     private int clientNumber; //stores the amount of users logged on
 
@@ -29,7 +49,7 @@ public class Server {
 
     private Thread managerThread;
 
-    private UserList connections;
+    private static UserList connections;
 
     private ArrayList<Call> calls;
 
@@ -39,7 +59,15 @@ public class Server {
         calls = new ArrayList<Call>();
     }
 
+    public void print(Object o) {
+        synchronized (outputKey) {
+            System.out.println(o);
+        }
+    }
+
     public void runServer() {
+
+        format = new AudioFormat(8000, 8, 1, true, true);
 
         connections = new UserList();
 
@@ -53,7 +81,8 @@ public class Server {
         //make the server
         try {
             this.server = new ServerSocket(port);
-            System.out.println("Server started on port " + port);
+            this.audioServer = new ServerSocket(port + 1);
+            System.out.println("Server started on port " + port + " and " + (port + 1));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -71,7 +100,9 @@ public class Server {
                     System.out.println("Client connected from " + client.getInetAddress());
                 }
 
-                Connection newConnection = new Connection(client); //make a runnable passing the client socket to the new Connection
+                Socket audioSocket = audioServer.accept();
+
+                Connection newConnection = new Connection(client, audioSocket); //make a runnable passing the client socket to the new Connection
 
                 Thread thread = new Thread(newConnection, "Client" + counter); //make a new thread to run the connection to the client
 
@@ -80,6 +111,9 @@ public class Server {
                 }
 
                 thread.start(); //start the thread
+
+                print("New Connection Thread started: " + thread.getName());
+
                 counter++;
 
                 synchronized (clientNumberKey) {
@@ -170,26 +204,105 @@ public class Server {
 
     }
 
+
         private class Connection implements Runnable {
             private User thisUser;
 
-            private boolean online;
+            private CircularArray queue;
 
+            private AtomicBoolean mute;
+
+            private boolean online;
+            private Socket audioSocket;
+            private Server server;
             private boolean broadcasting; //if false
             //private Connection listeningFrom;
 
     //        private CircularArray queue;
 
+            private AtomicInteger otherConnectionID;
+
+            private Thread queueReader;
+
             private ObjectOutputStream objectOutputStream;
             private ObjectInputStream objectInputStream;
 
+            private AtomicBoolean queueRunning = new AtomicBoolean(true);
+
+            private Thread queueWriter;
+
+            public final Object queueKey = new Object();
+
             private Socket client;
+
+            private AtomicBoolean running = new AtomicBoolean(true);
 
             private Call currentCall;
 
-            public Connection(Socket client) {
+            private AtomicBoolean queueReaderRunning = new AtomicBoolean(false);
+
+            public int getID() {
+                return thisUser.getId();
+            }
+
+            public Connection(Socket client, Socket audioSocket) {
                 this.client = client;
+                this.audioSocket = audioSocket;
+                this.server = server;
                 online = true;
+                this.otherConnectionID = new AtomicInteger(0);
+                mute = new AtomicBoolean(true);
+
+                int frames = 4;
+
+                this.queue = new CircularArray(frames * ((int) format.getSampleRate() * format.getFrameSize()));
+
+                //TODO spawn another thread that has the sole purpose of updating the queue
+
+                queueWriter = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            BufferedInputStream bufIn = new BufferedInputStream(audioSocket.getInputStream());
+
+                            byte[] oneByte = new byte[1];
+
+                            while(queueRunning.get()) {
+                                synchronized (queueKey) {
+                                    bufIn.read(oneByte, 0, 1);
+                                    queue.write(oneByte[0]);
+                                }
+                            }
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
+                });
+
+                queueWriter.start();
+
+                queueReader = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            BufferedOutputStream bufOut = new BufferedOutputStream(audioSocket.getOutputStream());
+
+                            byte[] oneByte = new byte[1];
+
+                            while(queueRunning.get() && queueReaderRunning.get()) {
+                                synchronized (queueKey) {
+                                    if(!readOtherQueue(oneByte[0])) {
+                                        break;
+                                    } else {
+                                        bufOut.write(oneByte);
+                                    }
+                                }
+                            }
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
+                });
             }
 
             @Override
@@ -203,7 +316,7 @@ public class Server {
                 }
 
                 try {
-                    while (true) {
+                    while (running.get()) {
                         Message request = (Message) objectInputStream.readObject();
 
                         if(request.getType() == 1) {
@@ -218,23 +331,48 @@ public class Server {
                         else if (request.getType() == 4) {
                             //user
                             this.updateUser(request);
+                            print(Thread.currentThread() + ": updated their username ");
                         }
                         else if (request.getType() == 5) {
                             //user list
                             this.sendUserList();
+                            print(Thread.currentThread() + ": requested all the users connected");
                         }
-                        else if (request.getType() == 6) {
-                            //a call request
-                            this.addRequest(request);
+                        else if (request.getType() == 6) { //DEPRECATED
+                            //the client wants to listen to another user
+                            //this.addRequest(request);
+                            this.otherConnectionID.set((Integer)request.getData());
                         }
                         else if (request.getType() == 7) {
-                            this.sendAllRequests();
+                            this.sendAllRequests(); //DEPRECATED
                         }
                         else if (request.getType() == 8) {
                             //user accepted request
-                            this.acceptRequest((Call)request.getData());
+                            this.acceptRequest((Call)request.getData()); //DEPRECATED
+                        } else if (request.getType() == 60) { //start getting data from other user
+                            otherConnectionID.set((Integer) request.getData());
+                            queueReaderRunning.set(true);
+                            queueReader.start();
+                            print(Thread.currentThread() + ": requested the audio from the user with id " + this.otherConnectionID.get());
+                        } else if (request.getType() == 70) { //stop read from other conn thread and
+                            queueReaderRunning.set(false);
+                            try {
+                                queueReader.join();
+                            } catch (InterruptedException interruptedException) {
+                                interruptedException.printStackTrace();
+                            }
+
+                            otherConnectionID.set(0);
+                            audioSocket.getOutputStream().flush();
+
+                            print(Thread.currentThread() + ": has stopped listening to the audio from the user with id " + this.otherConnectionID.get());
+                        } else if (request.getType() == 80) {
+                            this.mute.set(true);
+                            objectOutputStream.writeObject(new Message(80));
+                        } else if (request.getType() == 85) {
+                            this.mute.set(false);
+                            objectOutputStream.writeObject(new Message(85));
                         }
-                        //else if (request.getType() == )
                         else if (request.getType() == -1) {
                             //quit message
                             break;
@@ -326,7 +464,32 @@ public class Server {
                 objectOutputStream.writeObject(new Message(5, users));
             }
 
+            public byte readQueue() {
+                if(mute.get()) {
+                    return 0;
+                }
+
+                synchronized (queueKey) {
+                    return queue.read();
+                }
+            }
+
+
+            private boolean readOtherQueue(byte byteToPopulate) {
+                return Server.readQueue(otherConnectionID.get(), byteToPopulate);
+            }
+
+
             private void addRequest(Message message) throws IOException {
+
+
+
+
+
+
+
+
+                /*
                 Call call = (Call) message.getData();
                 boolean found = false;
                 synchronized (callKey) { //check to see if a call request for this has already been made.
@@ -381,6 +544,7 @@ public class Server {
 
                 enterCall();
                 System.out.println("Exit call");
+                */
             }
 
             private void sendAllRequests() throws IOException {
@@ -406,6 +570,12 @@ public class Server {
                     objectOutputStream.close();
                     objectInputStream.close();
                     client.close();
+                    audioInputStream.close();
+                    audioSocket.close();
+
+                    queueRunning.set(false);
+                    running.set(false);
+
                 } catch (IOException ioException) {
 
                 }

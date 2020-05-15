@@ -1,13 +1,15 @@
 public class CircularArray {
     private Node head;
     private Node tail;
-    private int currentNode;
+    private int currentNodeID;
     private int numOfElements;
     private Node writeNode;
     private Node readNode;
 
+    private final Object queueKey = new Object();
+
     public CircularArray(int size) {
-        this.currentNode = 0;
+        this.currentNodeID = 0;
         this.numOfElements = size;
         this.head = new Node(null, 0);
         this.tail = new Node(this.head, size - 1);
@@ -46,10 +48,12 @@ public class CircularArray {
     }
 
     public void write(byte b) {
-        this.currentNode++;
-        this.writeNode.setData(b);
-        this.writeNode = this.writeNode.link; //go to next element
-        this.notify();
+        synchronized (queueKey) {
+            this.currentNodeID++;
+            this.writeNode.setData(b);
+            this.writeNode = this.writeNode.link; //go to next element
+            queueKey.notify();
+        }
     }
 
     public boolean readable() {
@@ -57,17 +61,19 @@ public class CircularArray {
     }
 
     public byte read() {
-        if(readNode == writeNode) {
-            try {
-                Thread.currentThread().wait();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
+        synchronized (queueKey) {
+            if (readNode == writeNode) {
+                try {
+                    queueKey.wait();
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
             }
-        }
 
-        byte data = this.readNode.getData();
-        this.readNode = this.readNode.link;
-        return data;
+            byte data = this.readNode.getData();
+            this.readNode = this.readNode.link;
+            return data;
+        }
     }
 
     public int size() {
