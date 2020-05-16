@@ -133,7 +133,7 @@ public class Client {
         System.out.println("Please keep in mind that your microphone is currently muted");
         System.out.println("If you want someone to hear you, unmute yourself in the main menu");
 
-        recorder.start();
+//        recorder.start();
     }
 
     public void updateUser() throws IOException {
@@ -284,6 +284,9 @@ public class Client {
 
         if(to != null) { //only if there exists a user that matches the id
             objectOutputStream.writeObject(new Message(60, id));
+            if(speaker.isRunning()) {
+                speaker.stopListening();
+            }
             listener.start();
         } else {
             System.out.println("There is no user with that id! Returning to main menu.\n");
@@ -353,6 +356,9 @@ public class Client {
             System.out.println("Please try again");
             setAudioDevices();
         }
+
+//        this.listener.start();
+        this.recorder.start();
     }
 
     private void changeAudioDevice() throws IOException {
@@ -398,6 +404,7 @@ public class Client {
 
             microphone = new AudioRecorder(audioSocket.getOutputStream());
             recorder = new Thread(microphone);
+            this.recorder.start();
         } else if (choice == 2) {
             int mixers = 0;
             int mixerNum = -1;
@@ -591,12 +598,11 @@ public class Client {
         private SourceDataLine speakers;
         private AtomicBoolean running;
         private InputStream inputStream;
-        private BufferedInputStream bufferedInputStream;
 
         public AudioListener(InputStream inputStream) {
             this.running = new AtomicBoolean(true);
             this.inputStream = inputStream;
-            this.bufferedInputStream = new BufferedInputStream(inputStream);
+
             try {
                 this.speakers = AudioSystem.getSourceDataLine(format);
             } catch (LineUnavailableException lineUnavailableException) {
@@ -607,13 +613,20 @@ public class Client {
         @Override
         public void run() {
             try {
-                int chunkSize = 64;
+                int chunkSize = 1024;
 
                 byte[] buffer = new byte[chunkSize];
 
+                try {
+                    speakerLine.open(format);
+                    speakerLine.start();
+                } catch (LineUnavailableException lineUnavailableException) {
+                    lineUnavailableException.printStackTrace();
+                }
+
                 while (this.running.get()) {
                     //listen to server and play in speaker
-                    bufferedInputStream.read(buffer, 0, chunkSize);
+                    audioSocket.getInputStream().read(buffer, 0, chunkSize);
 
                     speakerLine.write(buffer, 0 , buffer.length);
                 }
