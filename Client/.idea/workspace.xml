@@ -21,8 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="70256b17-a333-4b57-b88e-c4829d0eecb3" name="Default Changelist" comment="Added circular array to Client so that server would no longer give an error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Call.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/out/production/Server/META-INF/Server.kotlin_module" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,25 +135,25 @@
     </state>
     <state x="735" y="290" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589347330678" />
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1585445985013" />
-    <state width="1874" height="284" key="GridCell.Tab.0.bottom" timestamp="1589605081452">
+    <state width="914" height="284" key="GridCell.Tab.0.bottom" timestamp="1589606017267">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589605081452" />
+    <state width="914" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589606017267" />
     <state width="920" height="280" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
-    <state width="1874" height="284" key="GridCell.Tab.0.center" timestamp="1589605081451">
+    <state width="914" height="284" key="GridCell.Tab.0.center" timestamp="1589606017266">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589605081451" />
+    <state width="914" height="284" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589606017266" />
     <state width="920" height="280" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
-    <state width="1874" height="284" key="GridCell.Tab.0.left" timestamp="1589605081451">
+    <state width="914" height="284" key="GridCell.Tab.0.left" timestamp="1589606017266">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589605081451" />
+    <state width="914" height="284" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589606017266" />
     <state width="920" height="280" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212688" />
-    <state width="1874" height="284" key="GridCell.Tab.0.right" timestamp="1589605081451">
+    <state width="914" height="284" key="GridCell.Tab.0.right" timestamp="1589606017266">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="284" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589605081451" />
+    <state width="914" height="284" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589606017266" />
     <state width="920" height="280" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1588643212689" />
     <state width="1874" height="351" key="GridCell.Tab.1.bottom" timestamp="1589605048544">
       <screen x="0" y="0" width="1920" height="1080" />

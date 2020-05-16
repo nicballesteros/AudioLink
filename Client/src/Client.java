@@ -80,12 +80,12 @@ public class Client {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
 
-            microphone = new AudioRecorder(audioSocket.getOutputStream());
+            //microphone = new AudioRecorder(audioSocket.getOutputStream());
 
-            recorder = new Thread(microphone);
+            //recorder = new Thread(microphone);
 
-            speaker = new AudioListener(audioSocket.getInputStream());
-            listener = new Thread(speaker);
+            //speaker = new AudioListener(audioSocket.getInputStream());
+            //listener = new Thread(speaker);
 
             scanner = new Scanner(System.in);
 
@@ -248,7 +248,7 @@ public class Client {
         }
     }
 
-    public void listenToAudio() throws IOException {
+    public void listenToAudio() throws IOException, InterruptedException {
         //show the client the available users they can connect to
         this.getOnlineUsers();
         this.printOnlineUsers(false);
@@ -286,7 +286,11 @@ public class Client {
             objectOutputStream.writeObject(new Message(60, id));
             if(speaker.isRunning()) {
                 speaker.stopListening();
+                listener.join();
             }
+            speaker = new AudioListener();
+            listener = new Thread(speaker, "Listener");
+
             listener.start();
         } else {
             System.out.println("There is no user with that id! Returning to main menu.\n");
@@ -336,6 +340,9 @@ public class Client {
             setAudioDevices();
         }
 
+        microphone = new AudioRecorder();
+        recorder = new Thread(microphone, "Recorder");
+
         System.out.println("Please set your speaker");
 
         while(true) {
@@ -357,11 +364,14 @@ public class Client {
             setAudioDevices();
         }
 
+        this.speaker = new AudioListener();
+        this.listener = new Thread(speaker, "Listener");
+
 //        this.listener.start();
         this.recorder.start();
     }
 
-    private void changeAudioDevice() throws IOException {
+    private void changeAudioDevice() throws IOException, InterruptedException {
         System.out.println("What type of audio device would you like to change?");
         System.out.println("1. Microphone");
         System.out.println("2. Speaker");
@@ -372,6 +382,8 @@ public class Client {
         if(choice == 1) {
             microphone.stopRecording();
             audioSocket.getOutputStream().flush();
+
+            recorder.join();
 
             int mixers = 0;
             int mixerNum = -1;
@@ -402,7 +414,7 @@ public class Client {
                 changeAudioDevice();
             }
 
-            microphone = new AudioRecorder(audioSocket.getOutputStream());
+            microphone = new AudioRecorder();
             recorder = new Thread(microphone);
             this.recorder.start();
         } else if (choice == 2) {
@@ -410,8 +422,7 @@ public class Client {
             int mixerNum = -1;
 
             speaker.stopListening();
-
-
+            listener.join();
             while(true) {
                 audioSocket.getOutputStream().flush();
 
@@ -439,8 +450,9 @@ public class Client {
                 changeAudioDevice();
             }
 
-            speaker = new AudioListener(audioSocket.getInputStream());
+            speaker = new AudioListener();
             listener = new Thread(speaker, "Listener");
+            listener.start();
         } else {
             changeAudioDevice();
         }
@@ -553,9 +565,13 @@ public class Client {
 
         private BufferedOutputStream bufferedOutputStream;
 
-        public AudioRecorder(OutputStream outputStream) { // constructor run when normal call
+        public AudioRecorder() { // constructor run when normal call
             this.running = new AtomicBoolean(true);
-            this.outputStream = outputStream;
+            try {
+                this.outputStream = audioSocket.getOutputStream();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
             this.bufferedOutputStream = new BufferedOutputStream(this.outputStream);
         }
 
@@ -575,7 +591,6 @@ public class Client {
                     try {
                         //write the audio data from the mic to the server
                         outputStream.write(buffer);
-//                        objectOutputStream.write(1);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -583,6 +598,7 @@ public class Client {
             } catch (LineUnavailableException lineUnavailableException) {
                 lineUnavailableException.printStackTrace();
             }
+
         }
 
         public void stopRecording() {
@@ -595,19 +611,10 @@ public class Client {
     }
 
     private class AudioListener implements Runnable {
-        private SourceDataLine speakers;
         private AtomicBoolean running;
-        private InputStream inputStream;
 
-        public AudioListener(InputStream inputStream) {
+        public AudioListener() {
             this.running = new AtomicBoolean(true);
-            this.inputStream = inputStream;
-
-            try {
-                this.speakers = AudioSystem.getSourceDataLine(format);
-            } catch (LineUnavailableException lineUnavailableException) {
-                lineUnavailableException.printStackTrace();
-            }
         }
 
         @Override
@@ -634,6 +641,10 @@ public class Client {
                 ioException.printStackTrace(); //TODO if exception is ever thrown in this stage shut down everything... like all calls
                 this.stopListening();
             }
+
+            speakerLine.drain();
+            speakerLine.close();
+
         }
 
         public void stopListening() {
