@@ -24,6 +24,7 @@ public class CircularArray {
             } else {
                 currentNode.link = new Node(null, i);
             }
+            currentNode = currentNode.link;
         }
     }
 
@@ -49,6 +50,10 @@ public class CircularArray {
 
     public void write(byte b) {
         synchronized (queueKey) {
+//            if(this.currentNodeID == 0) {
+//                System.out.println("HEAD");
+//            }
+
             this.currentNodeID++;
             this.writeNode.setData(b);
             this.writeNode = this.writeNode.link; //go to next element

@@ -1,30 +1,30 @@
 import javax.sound.sampled.*;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static javax.sound.sampled.AudioSystem.getMixer;
+import static javax.sound.sampled.AudioSystem.getMixerInfo;
+
 /**
  * @author Nic Ballesteros
  * @repo https://github.com/nicballesteros/AudioLink
- * @version 1.1.0
+ * @version 1.2.0
  */
 
 public class Client {
-    private Socket socket;
-    private Socket audioSocket;
     private String host;
     private int port;
-    private BufferedReader bufferedReader;
-    private BufferedOutputStream writer;
-    private BufferedInputStream reader;
+
+    private Socket socket;
+    private Socket audioSocket;
 
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
-
-    private Call currentCall;
 
     private Scanner scanner;
 
@@ -44,17 +44,15 @@ public class Client {
     private TargetDataLine microphoneLine;
     private SourceDataLine speakerLine;
 
-
-
     public Client() {
         this.host = "localhost";
         this.port = 8080;
 
         try {
             this.socket = new Socket(host, port);
-            //bufferedReader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             objectInputStream = new ObjectInputStream(this.socket.getInputStream());
             objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,14 +65,14 @@ public class Client {
         this.port = port;
 
         try {
-            this.recordingFormat = new RecordingFormat(8000.0f, 8, 1, true, true);
+            this.recordingFormat = new RecordingFormat(44100.0f, 16, 1, true, true);
             this.format = recordingFormat.getAudioFormat();
 
-            this.mixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[10]);
+//            this.mixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[10]);
 
-            this.microphoneLine = (TargetDataLine) mixer.getLine(mixer.getTargetLineInfo()[0]);
+//            this.microphoneLine = (TargetDataLine) mixer.getLine(mixer.getTargetLineInfo()[0]); for testing
 
-            this.speakerLine = (SourceDataLine) mixer.getLine(mixer.getSourceLineInfo()[0]);
+//            this.speakerLine = (SourceDataLine) mixer.getLine(mixer.getSourceLineInfo()[0]); for testing
 
             this.socket = new Socket(host, port);
             this.audioSocket = new Socket(host, (port + 1));
@@ -94,16 +92,6 @@ public class Client {
             this.initiateUser(); //initiate the user and set me to something other than null;
 
             this.mainMenu(); // run the main menu
-
-
-
-
-            //bufferedReader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-//            this.choose();
-//            this.writer = new BufferedOutputStream(socket.getOutputStream());
-//            this.reader = new BufferedInputStream(socket.getInputStream());
-//            this.choose();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,9 +128,10 @@ public class Client {
             }
         }
 
-        System.out.println("Please keep in mind that your audio is being transmitted at all times!");
-        System.out.println("If you do not want anyone snooping in and listening to you, mute yourself");
-        System.out.println("In the main menu");
+        this.setAudioDevices();
+
+        System.out.println("Please keep in mind that your microphone is currently muted");
+        System.out.println("If you want someone to hear you, unmute yourself in the main menu");
 
         recorder.start();
     }
@@ -183,13 +172,13 @@ public class Client {
 
                     if (response.getType() != -2) {
                         User userResponseFromServer = (User) response.getData();
-//                        if (((User) response.getData()).getUsername().equals(me.getUsername())) {
-//                            //all good
-//                            System.out.println("Profile updated!");
-//                        } else {
-//                            //exit the program there has been an error
-//                            System.out.println("There's been an error");
-//                        }
+                        if (((User) response.getData()).getUsername().equals(me.getUsername())) {
+                            //all good
+                            System.out.println("Profile updated!");
+                        } else {
+                            //exit the program there has been an error
+                            System.out.println("There's been an error");
+                        }
 
                         me = userResponseFromServer;
                         System.out.println("Changed Username!\n");
@@ -241,168 +230,6 @@ public class Client {
         }
     }
 
-    public void getIncomingCalls() throws IOException {
-        objectOutputStream.writeObject(new Message(7));
-
-        try {
-            Message message = (Message) objectInputStream.readObject();
-            ArrayList<Call> calls = (ArrayList<Call>) message.getData();
-
-            if(calls.size() > 0) {
-                System.out.println("\nCurrent Requests: ");
-                int num = 0;
-
-                for (Call call : calls) {
-                    num++;
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append(num);
-                    stringBuilder.append(") From: ");
-                    stringBuilder.append(call.getSender().getUsername());
-                    stringBuilder.append(" To: ");
-                    stringBuilder.append(call.getRecipient().getUsername());
-                    stringBuilder.append(" Type: ");
-
-                    if (call.getType() == 1) {
-                        stringBuilder.append("Broadcast\n");
-                    } else if (call.getType() == 2) {
-                        stringBuilder.append("Listen\n");
-                    } else if (call.getType() == 3) {
-                        stringBuilder.append("Listen and Broadcast\n");
-                    }
-
-                    System.out.println(stringBuilder.toString());
-                }
-
-                while(true) {
-                    System.out.print("Would you like to accept a request? (y/n) ");
-                    scanner.nextLine();
-                    String input = scanner.nextLine();
-
-                    if (input.equals("y")) {
-                        System.out.println("Which request number would you like to accept?");
-                        while(true) {
-                            System.out.print("Request: ");
-
-                            int requestNumber = scanner.nextInt();
-
-                            if(requestNumber > 0 && requestNumber <= calls.size()) {
-                                //accept that or deny the request
-
-                                while(true) {
-                                    System.out.print("Would you like to accept or deny this request? (a/d) ");
-                                    scanner.nextLine();
-                                    String acceptOrDeny = scanner.nextLine();
-
-                                    if(acceptOrDeny.equals("a")) {
-                                        currentCall = calls.get(requestNumber - 1);
-                                        System.out.println("Entering mode " + currentCall.getType());
-                                        objectOutputStream.writeObject(new Message(8, currentCall));
-                                        objectInputStream.readObject(); //TODO do something here
-
-                                        enterCall();
-
-                                        break;
-                                    } else if (acceptOrDeny.equals("d")){
-                                        System.out.println("Deleting Request");
-                                        //TODO delete the request
-                                    } else {
-                                        System.out.println("Please choose a or d");
-                                    }
-                                }
-                                break;
-                            } else {
-                                System.out.println("That is not a valid request number. Please try again.");
-                            }
-                        }
-                        break;
-                    } else if (input.equals("n")) {
-                        break;
-                    }
-                }
-
-            } else {
-                System.out.println("No requests to this user\n");
-            }
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-        }
-    }
-
-    public void makeCallRequest() throws IOException {
-        getOnlineUsers(); //show the user all the online users
-        printOnlineUsers(false);
-
-        if(users.size() == 1) {
-            System.out.println("No users to call. Returning to main menu.\n");
-            return;
-        }
-
-        System.out.println("Enter the id of the user you'd like to call");
-        System.out.print("ID (Enter -1 to quit): ");
-
-        int id = scanner.nextInt();
-
-        if(id == -1) {
-            System.out.println("Returning to main menu\n");
-            return;
-        }
-
-        if(id == me.getId()) {
-            System.out.println("Cannot call yourself\n");
-            return;
-        }
-
-        User to = null;
-
-        for(User user : users) {
-            if(user.getId() == id) {
-                to = user;
-//                System.out.println("Found user");
-                break;
-            }
-        }
-
-        if(to != null) { //only if there exists a user that matches the id
-            int choice = 0;
-
-            while (choice <= 0) {
-                System.out.println("Would you like to ... ");
-                System.out.println("1) Send your mic");
-                System.out.println("2) Listen to their mic ");
-                System.out.println("3) Have a call");
-                System.out.println("4) Exit to Main Menu");
-
-                choice = scanner.nextInt();
-            }
-
-            Call call = new Call(me, to, choice);
-            //System.out.println(choice);
-            if (choice >= 1 && choice <= 3) {
-                //send that request to the server so that the user that has a request can see it.
-                objectOutputStream.writeObject(new Message(6, call));
-                System.out.println("Calling"); //TODO add some ringing animations
-//NOTE there will not be a way to get out of the call
-                try {
-                    Message message = (Message) objectInputStream.readObject();
-                    if (message.getType() == 6) { //hang here
-                        System.out.println(to.getUsername() + " has answered\n");
-                        currentCall = (Call) message.getData();
-                        enterCall();
-                    } else {
-                        System.out.println("error");
-                    }
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                }
-            } else {
-                System.out.println("Returning to main menu\n");
-            }
-        } else {
-            System.out.println("There is no user with that id! Returning to main menu.\n");
-        }
-    }
-
     public void muteMe() throws IOException, ClassNotFoundException {
         objectOutputStream.writeObject(new Message(80));
         if (((Message) objectInputStream.readObject()).getType() == 80) {
@@ -424,9 +251,9 @@ public class Client {
     public void listenToAudio() throws IOException {
         //show the client the available users they can connect to
         this.getOnlineUsers();
-        this.printOnlineUsers(true);
+        this.printOnlineUsers(false);
 
-        if(users.size() == 0) { //TODO change value back to 1
+        if(users.size() == 1) {
             System.out.println("No users to call. Returning to main menu.\n");
             return;
         }
@@ -443,7 +270,7 @@ public class Client {
 
         if(id == me.getId()) {
             System.out.println("Cannot listen to yourself\n");
-            //return; TODO uncomment this
+            return;
         }
 
         User to = null;
@@ -463,8 +290,10 @@ public class Client {
         }
     }
 
-    private void stopListenToAudio() throws IOException {
+    private void stopListenToAudio() throws IOException, InterruptedException {
         objectOutputStream.writeObject(new Message(70));
+        speaker.stopListening();
+        listener.join();
     }
 
     /**
@@ -473,13 +302,57 @@ public class Client {
      */
 
     private int listMixers() {
-        Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+        Mixer.Info[] mixerInfo = getMixerInfo();
 
         for(int i = 0; i < mixerInfo.length; i++) {
-            System.out.println(mixerInfo[i].getVendor());
+            System.out.println((i + 1) + ": " + mixerInfo[i].getName());
         }
 
         return mixerInfo.length;
+    }
+
+    private void setAudioDevices() {
+        System.out.println("Please set your microphone: ");
+        int mixerNum = -1;
+        while(true) {
+            int mixers = listMixers();
+
+            mixerNum = scanner.nextInt();
+
+            if(mixerNum > mixers || mixerNum < 1) {
+                System.out.println("That was not an option, returning to the main menu");
+            } else {
+                break;
+            }
+        }
+        try {
+            mixer = getMixer(getMixerInfo()[mixerNum - 1]);
+            microphoneLine = (TargetDataLine) mixer.getLine(mixer.getTargetLineInfo()[0]);
+        } catch (LineUnavailableException lineUnavailableException) {
+            System.out.println("Please try again");
+            setAudioDevices();
+        }
+
+        System.out.println("Please set your speaker");
+
+        while(true) {
+            int mixers = listMixers();
+
+            mixerNum = scanner.nextInt();
+
+            if(mixerNum > mixers || mixerNum < 1) {
+                System.out.println("That was not an option, returning to the main menu");
+            } else {
+                break;
+            }
+        }
+        try {
+            mixer = getMixer(getMixerInfo()[mixerNum - 1]);
+            speakerLine = (SourceDataLine) mixer.getLine(mixer.getSourceLineInfo()[0]);
+        } catch (LineUnavailableException lineUnavailableException) {
+            System.out.println("Please try again");
+            setAudioDevices();
+        }
     }
 
     private void changeAudioDevice() throws IOException {
@@ -491,57 +364,78 @@ public class Client {
         int choice = scanner.nextInt();
 
         if(choice == 1) {
-            speaker.stopListening();
+            microphone.stopRecording();
+            audioSocket.getOutputStream().flush();
 
-            System.out.println("Which device would you like to record from");
+            int mixers = 0;
+            int mixerNum = -1;
 
-            int mixers = listMixers();
+            while(true) {
 
-            int mixerNum = scanner.nextInt();
+                System.out.println("Which device would you like to listen from");
 
-            if(mixerNum > mixers) {
-                System.out.println("That was not an option, returning to the main menu");
-                return;
+                mixers = listMixers();
+
+                mixerNum = scanner.nextInt();
+
+                if(mixerNum > mixers || mixerNum < 1) {
+                    System.out.println("That was not an option, returning to the main menu");
+                } else {
+                    break;
+                }
             }
 
-            mixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[mixerNum - 1]); //Get a new mixer based on user input
+            mixer = getMixer(getMixerInfo()[mixerNum - 1]); //Get a new mixer based on user input
 
             try {
                 microphoneLine = (TargetDataLine) mixer.getLine(mixer.getTargetLineInfo()[0]);
             } catch (LineUnavailableException lineUnavailableException) {
                 lineUnavailableException.printStackTrace();
+            } catch (ClassCastException classCastException) {
+                System.out.println("That is not a speaker");
+                changeAudioDevice();
             }
 
             microphone = new AudioRecorder(audioSocket.getOutputStream());
             recorder = new Thread(microphone);
         } else if (choice == 2) {
-            microphone.stopRecording();
-            audioSocket.getOutputStream().flush();
+            int mixers = 0;
+            int mixerNum = -1;
 
-            System.out.println("Which device would you like to listen from");
+            speaker.stopListening();
 
-            int mixers = listMixers();
 
-            int mixerNum = scanner.nextInt();
+            while(true) {
+                audioSocket.getOutputStream().flush();
 
-            if(mixerNum > mixers) {
-                System.out.println("That was not an option, returning to the main menu");
-                return;
+                System.out.println("Which device would you like to listen from");
+
+                mixers = listMixers();
+
+                mixerNum = scanner.nextInt();
+
+                if(mixerNum > mixers || mixerNum < 1) {
+                    System.out.println("That was not an option, returning to the main menu");
+                } else {
+                    break;
+                }
             }
 
-            mixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[mixerNum - 1]); //Get a new mixer based on user input
+            mixer = getMixer(getMixerInfo()[mixerNum - 1]); //Get a new mixer based on user input
 
             try {
                 speakerLine = (SourceDataLine) mixer.getLine(mixer.getSourceLineInfo()[0]);
             } catch (LineUnavailableException lineUnavailableException) {
                 lineUnavailableException.printStackTrace();
+            } catch (ClassCastException classCastException) {
+                System.out.println("That is not a speaker");
+                changeAudioDevice();
             }
-
 
             speaker = new AudioListener(audioSocket.getInputStream());
             listener = new Thread(speaker, "Listener");
         } else {
-            return;
+            changeAudioDevice();
         }
     }
 
@@ -587,6 +481,19 @@ public class Client {
                     this.changeAudioDevice();
                 } else if (choice == 8) {
                     System.out.println("Goodbye!");
+                    try {
+                        objectOutputStream.writeObject(new Message(-1));
+                        this.speaker.stopListening();
+                        this.microphone.stopRecording();
+                        this.listener.join();
+                        this.recorder.join();
+
+                        Thread.sleep(100);
+                        socket.close();
+                        audioSocket.close();
+                    } catch (SocketException socketException) {
+                        System.out.println("Closed connection");
+                    }
                     break; //exits program
                 } else {
                     //chose something thats not on the list
@@ -596,209 +503,11 @@ public class Client {
                 ioException.printStackTrace();
             } catch (ClassNotFoundException classNotFoundException) {
                 classNotFoundException.printStackTrace();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
             }
             //TODO make sure that if the value inputted is not an int, show main menu again.
-
-
         }
-    }
-
-    public void enterCall() {
-//        System.out.println("Type \"end\" to stop call");
-//
-//        //TODO loop till call is accepted
-//
-//        if(currentCall.getSender().equals(me) && currentCall.getType() == 1) {
-//            //start a thread that listens to this users mic and sends it over to server
-//            microphone = new AudioRecorder(objectOutputStream, objectInputStream);
-//            recorder = new Thread(microphone);
-//            recorder.start();
-////            listener = new Thread(new AudioRecorder(objectOutputStream));
-//        } else if (currentCall.getSender().equals(me) && currentCall.getType() == 2) {
-//            //start a thread that takes server data and sends to speakers
-//            speaker = new AudioListener(objectInputStream, objectOutputStream);
-//            listener = new Thread(speaker);
-//            listener.start();
-//        } else {
-//            //start both.
-//            microphone = new AudioRecorder(objectOutputStream, objectInputStream);
-//            recorder = new Thread(microphone);
-//
-//            recorder.start();
-//
-//            speaker = new AudioListener(objectInputStream, objectOutputStream);
-//            listener = new Thread(speaker);
-//
-//            listener.start();
-//        }
-//
-//        String userInput = "";
-//
-//        while(!userInput.equals("end")) {
-//            System.out.println("Listening and Recording");
-//            if(scanner.hasNextLine()) {
-//                userInput = scanner.nextLine();
-//            }
-//            if(microphone != null) {
-//                if(!microphone.isRunning()) {
-//                    break;
-//                }
-//            }
-//
-//            if(speaker != null) {
-//                if(!speaker.isRunning()) {
-//                    break;
-//                }
-//            }
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException interruptedException) {
-//                interruptedException.printStackTrace();
-//            }
-//        }
-//
-//        System.out.println("Call ended");
-//
-//        if(microphone != null) {
-//            microphone.stopRecording();
-//        }
-//
-//        if (speaker != null) {
-//            speaker.stopListening();
-//        }
-    }
-
-    public void choose() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-//        if(bufferedReader.readLine().equals("200 success")) {
-//            System.out.println("Connected to Server" );
-//            System.out.println("Hostname: " + socket.getInetAddress());
-//            System.out.println("Port: " + socket.getPort());
-//        } else {
-//            System.out.println("Error connecting to a Server");
-//        }
-//        bufferedReader.close();
-
-/*
-        try {
-            Message connectionResponse = (Message) objectInputStream.readObject();
-
-            if(connectionResponse.getType() != 1) {
-                //throw an exception
-            }
-
-            System.out.println("Connected to server");
-            System.out.print("Please enter a username: ");
-
-            //get username
-            String username = scanner.nextLine();
-
-            //send username to server
-            objectOutputStream.writeObject(new Message(4, username));
-
-            System.out.println("\nWelcome " + username);
-            System.out.println("Getting a list of online users");
-            //get list of online users.
-            objectOutputStream.writeObject(new Message(1, "list request", 200));
-            Message onlineUsers = (Message) objectInputStream.readObject();
-
-            if(onlineUsers.getType() != 5 || onlineUsers.getCode() != 200) {
-                //throw exception
-            }
-
-            users = (ArrayList<User>) onlineUsers.getData();
-
-
-
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-        }
-*/
-
-
-        /*
-
-        while(true) {
-            byte[] res = new byte[8];
-            reader.read(res, 0, res.length);
-
-            if(res[0] == "OK".getBytes()[0] && res[1] == "OK".getBytes()[1]) {
-                break;
-            }
-        }
-
-        System.out.println("got ok");
-
-        byte[] size = new byte[1];
-        reader.read(size, 0, 1);
-        System.out.println("size:" + size[0]);
-        byte[] formatBytes = new byte[size[0]];
-
-        reader.read(formatBytes, 0, size[0]);
-
-        for(byte b : formatBytes) {
-            System.out.println(b);
-        }
-
-        String formatString = new String(formatBytes, StandardCharsets.UTF_8);
-        formatString.trim();
-        System.out.println(formatString);
-        for(byte b : formatString.getBytes()) {
-            System.out.println(b);
-        }
-
-
-
-        //put in new function
-
-
-        AudioFormat.Encoding encoding;
-
-        String[] params = formatString.split(",");
-        if(params[0].equalsIgnoreCase("pcm_signed")) {
-            encoding = AudioFormat.Encoding.PCM_SIGNED;
-        }
-        else if(params[0].equalsIgnoreCase("pcm_unsigned")) {
-            encoding = AudioFormat.Encoding.PCM_UNSIGNED;
-        }
-        else if(params[0].equalsIgnoreCase("pcm_float")) {
-            encoding = AudioFormat.Encoding.PCM_FLOAT;
-        }
-        else if(params[0].equalsIgnoreCase("ulaw")) {
-            encoding = AudioFormat.Encoding.ULAW;
-        }
-        else if(params[0].equalsIgnoreCase("alaw")) {
-            encoding = AudioFormat.Encoding.ALAW;
-        }
-        else {
-            throw new IllegalArgumentException("Encoding string was not of enum AudioFormat.Encoding");
-        }
-
-        float sampleRate = Float.parseFloat(params[1]);
-        int sampleSizeInBits = Integer.parseInt(params[2]);
-        int channels = Integer.parseInt(params[3]);
-        int frameSize = Integer.parseInt(params[4]);
-        float frameRate = Float.parseFloat(params[5]);
-        boolean bigEndian = Boolean.parseBoolean(params[6]);
-
-        AudioFormat audioFormat = new AudioFormat(encoding, sampleRate, sampleSizeInBits, channels, frameSize, frameRate, bigEndian);
-
-        int bufferSize = (int) audioFormat.getSampleRate() * audioFormat.getFrameSize();
-
-        byte[] buffer = new byte[bufferSize];
-        int count = reader.read(buffer, 0, bufferSize);
-
-        while(count > 0) {
-            InputStream is = new ByteArrayInputStream(buffer);
-            AudioInputStream ais = AudioSystem.getAudioInputStream(is);
-            Clip clip = AudioSystem.getClip();
-            clip.open(ais);
-            clip.start();
-            Thread.sleep(clip.getMicrosecondLength());
-            clip.stop();
-        }
-
-        while(true);
-*/
     }
 
     public static void main(String[] args) throws UnknownHostException {
@@ -806,7 +515,6 @@ public class Client {
 
         String host;
         int port;
-        Client client;
 
         switch(args.length) {
             case 1:
@@ -826,30 +534,7 @@ public class Client {
                 break;
         }
 
-        client = new Client(host, port);
-
-//        try {
-//            client.choose();
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//        }
-//        try {
-//            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-//            Scanner scanner = new Scanner(System.in);
-//
-//            String line = scanner.nextLine();
-//            while(!line.equalsIgnoreCase("exit")) {
-//                pw.println(line);
-//                pw.flush();
-//                line = scanner.nextLine();
-//            }
-//            scanner.close();
-//            pw.close();
-//            socket.close();
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        new Client(host, port);
     }
 
     private class AudioRecorder implements Runnable {
@@ -867,32 +552,17 @@ public class Client {
             this.bufferedOutputStream = new BufferedOutputStream(this.outputStream);
         }
 
-//        public AudioRecorder(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
-//            //constructor run when solo
-//            running = true;
-//            this.outputStream = objectOutputStream;
-//
-//        }
-
         @Override
         public void run() {
             try {
-//                TargetDataLine line;
-
-//                DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-//                line = (TargetDataLine) AudioSystem.getLine(info);
-                this.chunkSize = 64;
+                this.chunkSize = 1024;
                 microphoneLine.open(format);
                 microphoneLine.start();
 
-                int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
+                //int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
                 byte[] buffer = new byte[chunkSize];
 
                 while(this.running.get()) {
-//                    System.out.println("Recording");
-                    //do a record
-
-                    //send to server a packet
                     microphoneLine.read(buffer, 0, chunkSize);
 
                     try {
@@ -922,6 +592,7 @@ public class Client {
         private AtomicBoolean running;
         private InputStream inputStream;
         private BufferedInputStream bufferedInputStream;
+
         public AudioListener(InputStream inputStream) {
             this.running = new AtomicBoolean(true);
             this.inputStream = inputStream;
@@ -933,17 +604,12 @@ public class Client {
             }
         }
 
-        public AudioListener(InputStream inputStream, SourceDataLine line) {
-            this.speakers = line;
-        }
         @Override
         public void run() {
             try {
                 int chunkSize = 64;
 
-//                int bufferSize = (int) format.getSampleRate() * format.getFrameSize();
                 byte[] buffer = new byte[chunkSize];
-
 
                 while (this.running.get()) {
                     //listen to server and play in speaker
@@ -953,6 +619,7 @@ public class Client {
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace(); //TODO if exception is ever thrown in this stage shut down everything... like all calls
+                this.stopListening();
             }
         }
 
